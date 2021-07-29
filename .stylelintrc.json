@@ -1,0 +1,8 @@
+{
+    "$schema": "https://json.schemastore.org/stylelintrc.json",
+    "extends": [
+        "stylelint-config-recommended",
+        "stylelint-config-styled-components",
+        "stylelint-config-prettier"
+      ]
+}

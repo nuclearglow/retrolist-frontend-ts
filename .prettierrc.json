@@ -1,0 +1,16 @@
+{
+    "$schema": "https://json.schemastore.org/prettierrc.json",
+    "singleQuote": true,
+    "trailingComma": "all",
+    "semi": true,
+    "tabWidth": 4,
+    "useTabs":false,
+    "overrides": [
+        {
+          "files": ["package.json", "package-lock.json"],
+          "options": {
+            "tabWidth": 2
+          }
+        }
+    ]
+}
