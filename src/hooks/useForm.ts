@@ -5,10 +5,10 @@ interface FormFields {
 }
 
 interface TypedFormFields {
-    [key: string]: TypedField;
+    [key: string]: TypedValue;
 }
 
-type TypedField = string | number | File;
+type TypedValue = string | number | File;
 
 /**
  *  Custom hook to process all kind of forms as a controlled component
@@ -17,7 +17,14 @@ type TypedField = string | number | File;
  * * provides handleChange method, which supports number, string and file input field types
  * * provides resetForm and clearForm methods
  * */
-const useForm = (initial: FormFields = {}) => {
+const useForm = (
+    initial: FormFields = {},
+): {
+    inputs: TypedFormFields;
+    handleChange: (e: React.FormEvent<HTMLInputElement>) => void;
+    resetForm: () => void;
+    clearForm: () => void;
+} => {
     // create an own state object for our inputs
     const [inputs, setInputs] = useState<TypedFormFields>(initial);
 
@@ -30,39 +37,41 @@ const useForm = (initial: FormFields = {}) => {
         setInputs(initial);
     }, [initialValues]);
 
-    const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
         // get the input value, name and type fropm the target HTML element
         const { value, name, type } = e.currentTarget;
+
+        let typedValue: TypedValue = value;
 
         // handle specific types individually
         if (type === 'number') {
             // directly parse integers
-            value = parseInt(value, 10);
+            typedValue = parseInt(value, 10);
         }
-        if (type === 'file') {
+        if (type === 'file' && e.currentTarget.files) {
             // if it is a file, destructure the first file from target array
-            [value] = e.target.files;
+            typedValue = e.currentTarget.files[0];
         }
         // otherwise, directly handle as string
 
         // update all input fields
         setInputs({
             ...inputs,
-            [name]: value,
+            [name]: typedValue,
         });
     };
 
     /**
      * just reset to the initial values
      */
-    const resetForm = () => {
+    const resetForm = (): void => {
         setInputs(initial);
     };
 
     /**
      * clear the form by providing empty strings to all fields
      */
-    const clearForm = () => {
+    const clearForm = (): void => {
         const blankState = Object.fromEntries(
             Object.entries(inputs).map(([key, value]) => [key, '']),
         );
