@@ -1,43 +1,100 @@
-import React, { useState, useEffect, FC } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import styled from 'styled-components';
+import React, { FC } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
+import Lists from './components/Lists';
+import './styles/animations.css';
+import './styles/fonts.css';
+import './styles/terminal.css';
 
-const TestStyles = styled.div`
-    text-align: false;
+const GlobalStyles = createGlobalStyle`
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+        text-rendering: geometricPrecision;
+    }
+
+    html {
+        margin: auto;
+        overflow: hidden;
+
+        --font-family: 'Hack', --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        --background-color: #1e1e1e;
+        --global-font-size: 14px;
+        --global-line-height: 1.4em;
+        --global-space: 10px;
+        --page-width: 60em;
+        --subtitle-color: #f975f7;
+        --font-color: #e8e9ed;
+        --invert-font-color: #222225;
+        --secondary-color: #a3abba;
+        --tertiary-color: #a3abba;
+        --primary-color: #62c4ff;
+        --error-color: #ff3c74;
+        --progress-bar-background: #3f3f44;
+        --progress-bar-fill: #62c4ff;
+        --code-bg-color: #3f3f44;
+        --quote-color: #9ca2ab;
+        --input-style: solid;
+        --display-h1-decoration: none;
+        --global-scale-factor: 1;
+    }
+
+    *::-moz-selection {
+        background: var(--primary-color);
+        color: var(--invert-font-color);
+    }
+
+    *::selection {
+        background: var(--primary-color);
+        color: var(--invert-font-color);
+    }
+
+    body {
+        background-color: var(--background-color);
+        font-family: var(--font-family), monospace;
+        font-size: var(--global-font-size);
+        line-height: var(--global-line-height);
+        color: var(--font-color);
+        margin: 0;
+        word-wrap: break-word;
+    }
+
+    @media screen and (max-width: 620px) {
+    :root {
+        --global-scale-factor: 0.666;
+    }
+}`;
+
+const PageStyles = styled.div`
+    height: 100%;
+    /* grid container settings */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: calc(var(--global-scale-factor) * 150px) 1fr auto;
+    grid-template-areas:
+        'header'
+        'main'
+        'footer';
+`;
+
+const MainStyles = styled.main`
+    grid-area: main;
+    overflow: auto;
+    margin: 10%;
 `;
 
 const App: FC = () => {
-    // Create the count state.
-    const [count, setCount] = useState(0);
-    // Create the counter (+1 every second).
-    useEffect(() => {
-        const timer = setTimeout(() => setCount(count + 1), 1000);
-        return () => clearTimeout(timer);
-    }, [count, setCount]);
-    // Return the App component.
     return (
-        <TestStyles className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <p>
-                    Page has been open for <code>{count}</code> seconds.
-                </p>
-                <p>
-                    <a
-                        className="App-link"
-                        href="https://reactjs.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Learn React
-                    </a>
-                </p>
-            </header>
-        </TestStyles>
+        <PageStyles>
+            <GlobalStyles />
+            <BrowserRouter>
+                <Switch>
+                    <Route path="/">
+                        <Lists />
+                    </Route>
+                </Switch>
+            </BrowserRouter>
+        </PageStyles>
     );
 };
 

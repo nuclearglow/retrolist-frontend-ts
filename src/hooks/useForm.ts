@@ -38,7 +38,7 @@ const useForm = (
     }, [initialValues]);
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
-        // get the input value, name and type fropm the target HTML element
+        // get the input value, name and type from the target HTML element
         const { value, name, type } = e.currentTarget;
 
         let typedValue: TypedValue = value;

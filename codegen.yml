@@ -1,0 +1,14 @@
+overwrite: true
+schema: '../retrolist-backend/.keystone/schema.graphql'
+documents: 'src/**/*.ts{,x}'
+generates:
+    types/graphql-generated.ts:
+        plugins:
+            - 'typescript'
+            - 'typescript-operations'
+            - 'typescript-react-apollo'
+            - 'fragment-matcher'
+            - 'time':
+                  format: 'DD.MM.YY HH:mm:ssZ'
+config:
+    withHooks: true

@@ -3,10 +3,14 @@ export default {
     mount: {
         public: { url: '/', static: true },
         src: { url: '/dist' },
+        types: { url: '/dist' },
+    },
+    env: {
+        GRAPHQL_ENDPOINT_DEV: 'http://10.10.10.100:3000/api/graphql',
+        GRAPHQL_ENDPOINT_PROD: 'TODO',
     },
     plugins: [
         '@snowpack/plugin-react-refresh',
-        '@snowpack/plugin-dotenv',
         [
             '@snowpack/plugin-typescript',
             {
@@ -28,9 +32,14 @@ export default {
         /* ... */
     },
     devOptions: {
-        /* ... */
+        hostname: '10.10.10.100',
+        open: 'none',
+        port: 7777,
     },
     buildOptions: {
+        /* ... */
+    },
+    alias: {
         /* ... */
     },
 };
