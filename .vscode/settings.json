@@ -2,9 +2,18 @@
     "workbench.colorCustomizations": {
         "statusBar.background": "#61dbfb77"
     },
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "[typescript]": {
+        "editor.codeActionsOnSave": [
+            "source.organizeImports",
+            "source.fixAll.eslint"
+        ]
+    },
+    "[typescriptreact]": {
+        "editor.codeActionsOnSave": [
+            "source.organizeImports",
+            "source.fixAll.eslint"
+        ]
     },
     "eslint.alwaysShowStatus": true,
     "eslint.validate": ["javascript"],
