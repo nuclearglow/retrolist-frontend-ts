@@ -1044,6 +1044,23 @@ export type _KsListsMetaInput = {
   auxiliary?: Maybe<Scalars['Boolean']>;
 };
 
+export type ListByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ListByIdQuery = (
+  { __typename?: 'Query' }
+  & { List?: Maybe<(
+    { __typename?: 'List' }
+    & Pick<List, 'title' | 'subtitle'>
+    & { items: Array<(
+      { __typename?: 'Item' }
+      & Pick<Item, 'id' | 'title' | 'quantity'>
+    )> }
+  )> }
+);
+
 export type DeleteListByIdMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1054,6 +1071,21 @@ export type DeleteListByIdMutation = (
   & { deleteList?: Maybe<(
     { __typename?: 'List' }
     & Pick<List, 'id'>
+  )> }
+);
+
+export type SaveItemMutationVariables = Exact<{
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  quantity: Scalars['Int'];
+}>;
+
+
+export type SaveItemMutation = (
+  { __typename?: 'Mutation' }
+  & { updateItem?: Maybe<(
+    { __typename?: 'Item' }
+    & Pick<Item, 'id'>
   )> }
 );
 
@@ -1077,6 +1109,47 @@ export type CurrentUserQuery = (
 );
 
 
+export const ListByIdDocument = gql`
+    query listById($id: ID!) {
+  List(where: {id: $id}) {
+    title
+    subtitle
+    items {
+      id
+      title
+      quantity
+    }
+  }
+}
+    `;
+
+/**
+ * __useListByIdQuery__
+ *
+ * To run a query within a React component, call `useListByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useListByIdQuery(baseOptions: Apollo.QueryHookOptions<ListByIdQuery, ListByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListByIdQuery, ListByIdQueryVariables>(ListByIdDocument, options);
+      }
+export function useListByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListByIdQuery, ListByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListByIdQuery, ListByIdQueryVariables>(ListByIdDocument, options);
+        }
+export type ListByIdQueryHookResult = ReturnType<typeof useListByIdQuery>;
+export type ListByIdLazyQueryHookResult = ReturnType<typeof useListByIdLazyQuery>;
+export type ListByIdQueryResult = Apollo.QueryResult<ListByIdQuery, ListByIdQueryVariables>;
 export const DeleteListByIdDocument = gql`
     mutation deleteListById($id: ID!) {
   deleteList(id: $id) {
@@ -1110,6 +1183,41 @@ export function useDeleteListByIdMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteListByIdMutationHookResult = ReturnType<typeof useDeleteListByIdMutation>;
 export type DeleteListByIdMutationResult = Apollo.MutationResult<DeleteListByIdMutation>;
 export type DeleteListByIdMutationOptions = Apollo.BaseMutationOptions<DeleteListByIdMutation, DeleteListByIdMutationVariables>;
+export const SaveItemDocument = gql`
+    mutation saveItem($id: ID!, $title: String!, $quantity: Int!) {
+  updateItem(id: $id, data: {title: $title, quantity: $quantity}) {
+    id
+  }
+}
+    `;
+export type SaveItemMutationFn = Apollo.MutationFunction<SaveItemMutation, SaveItemMutationVariables>;
+
+/**
+ * __useSaveItemMutation__
+ *
+ * To run a mutation, you first call `useSaveItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveItemMutation, { data, loading, error }] = useSaveItemMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      title: // value for 'title'
+ *      quantity: // value for 'quantity'
+ *   },
+ * });
+ */
+export function useSaveItemMutation(baseOptions?: Apollo.MutationHookOptions<SaveItemMutation, SaveItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SaveItemMutation, SaveItemMutationVariables>(SaveItemDocument, options);
+      }
+export type SaveItemMutationHookResult = ReturnType<typeof useSaveItemMutation>;
+export type SaveItemMutationResult = Apollo.MutationResult<SaveItemMutation>;
+export type SaveItemMutationOptions = Apollo.BaseMutationOptions<SaveItemMutation, SaveItemMutationVariables>;
 export const CurrentUserDocument = gql`
     query currentUser {
   authenticatedItem {
@@ -1176,4 +1284,4 @@ export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, Curren
 };
       export default result;
     
-// Generated on 30.07.21 10:56:34+02:00
+// Generated on 04.08.21 15:32:04+02:00
