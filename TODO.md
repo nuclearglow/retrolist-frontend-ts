@@ -1,6 +1,16 @@
--   Implement Delete List
+-   Migrate Create Item
+-   Migrate Create List
+-   Migrate Login / Logout / Signin
+-   Back Button in Lower Bar
 -   Positioning and Style Signin / SignOut
--   Style Lists (second line: entries and items)
 -   Implement Profile and Settings, place SignOut there
 -   Refactor Item and ItemEdit
 -   Refactor Mutations to Interaction Layer
+-   Bundle
+-   Build & Deploy
+    -   Set up retrolist.svenvowe.de
+    -   Set up https for that
+    -   Set up the backend for deployment using reverse proxy
+    -   Prepare deployer to handle backend and frontend
+    -   Deployment script and SSH, copy this over from latest incarnation github svenvowe.de
+    -   Test it out, configure
