@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
+import List from './components/List';
 import Lists from './components/Lists';
+import Scanline from './components/Scanline';
 import './styles/animations.css';
 import './styles/fonts.css';
 import './styles/terminal.css';
@@ -87,13 +89,19 @@ const App: FC = () => {
     return (
         <PageStyles>
             <GlobalStyles />
-            <BrowserRouter>
-                <Switch>
-                    <Route path="/">
-                        <Lists />
-                    </Route>
-                </Switch>
-            </BrowserRouter>
+            <Scanline />
+            <MainStyles>
+                <BrowserRouter>
+                    <Switch>
+                        <Route path="/list/:id">
+                            <List />
+                        </Route>
+                        <Route path="/">
+                            <Lists />
+                        </Route>
+                    </Switch>
+                </BrowserRouter>
+            </MainStyles>
         </PageStyles>
     );
 };

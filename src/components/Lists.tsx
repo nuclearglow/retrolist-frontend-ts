@@ -1,11 +1,10 @@
 import { gql } from '@apollo/client';
-import type { FC } from 'react';
 import React from 'react';
 import { Trash2 } from 'react-feather';
 import { Link } from 'react-router-dom';
 import { List, useDeleteListByIdMutation } from '../../types/graphql-generated';
 import { CURRENT_USER_QUERY, useUser } from '../hooks/useUser';
-import getItemCountFromList from '../lib/getItemsFromList';
+import getItemCount from '../lib/getItemsFromList';
 
 export const DELETE_LIST_MUTATION = gql`
     mutation deleteListById($id: ID!) {
@@ -15,18 +14,18 @@ export const DELETE_LIST_MUTATION = gql`
     }
 `;
 
-const Lists: FC = () => {
+const Lists = (): JSX.Element => {
     const user = useUser();
     const [deleteList, { loading, error, data }] = useDeleteListByIdMutation({
         // optional: queries that will be re-fetched after the mutation
         refetchQueries: [{ query: CURRENT_USER_QUERY }],
     });
 
-    const handleDelete = async (id: string) => {
-        if (id) {
-            const res = await deleteList({
+    const handleDelete = async (list: List) => {
+        if (list && list.id && confirm(`Really delete ${list.title} ?`)) {
+            await deleteList({
                 variables: {
-                    id,
+                    id: list.id,
                 },
             });
         }
@@ -40,19 +39,20 @@ const Lists: FC = () => {
         );
     }
     return (
-        <>
+        <nav>
             <ul>
                 {user.lists?.map((list: List) => (
                     <li key={list.id}>
                         <Link to={`/list/${list.id}`}>
-                            {list.title} ({getItemCountFromList(list)} items)
+                            {list.title} ({getItemCount(list?.items)} items)
                         </Link>
+                        &nbsp;
                         <button
                             type="button"
-                            className="button"
-                            onClick={() => handleDelete(list.id)}
+                            className="btn btn-small btn-error btn-ghost"
+                            onClick={() => handleDelete(list)}
                         >
-                            <Trash2 />
+                            <Trash2 size={16} />
                         </button>
                     </li>
                 ))}
@@ -62,7 +62,7 @@ const Lists: FC = () => {
                     Create new RetroList...
                 </Link>
             </p>
-        </>
+        </nav>
     );
 };
 
