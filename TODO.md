@@ -1,0 +1,6 @@
+-   Implement Delete List
+-   Positioning and Style Signin / SignOut
+-   Style Lists (second line: entries and items)
+-   Implement Profile and Settings, place SignOut there
+-   Refactor Item and ItemEdit
+-   Refactor Mutations to Interaction Layer
