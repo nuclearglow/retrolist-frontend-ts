@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
+import Header from './components/Header';
 import List from './components/List';
 import Lists from './components/Lists';
 import Scanline from './components/Scanline';
@@ -87,11 +88,12 @@ const MainStyles = styled.main`
 
 const App: FC = () => {
     return (
-        <PageStyles>
-            <GlobalStyles />
-            <Scanline />
-            <MainStyles>
-                <BrowserRouter>
+        <BrowserRouter>
+            <PageStyles>
+                <GlobalStyles />
+                <Scanline />
+                <Header />
+                <MainStyles>
                     <Switch>
                         <Route path="/list/:id">
                             <List />
@@ -100,9 +102,9 @@ const App: FC = () => {
                             <Lists />
                         </Route>
                     </Switch>
-                </BrowserRouter>
-            </MainStyles>
-        </PageStyles>
+                </MainStyles>
+            </PageStyles>
+        </BrowserRouter>
     );
 };
 
