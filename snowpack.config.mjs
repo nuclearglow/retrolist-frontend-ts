@@ -1,7 +1,9 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 export default {
     mount: {
+        // public is served as /
         public: { url: '/', static: true },
+        // mounted source folders point to dist bundle
         src: { url: '/dist' },
         types: { url: '/dist' },
     },
@@ -20,21 +22,23 @@ export default {
             },
         ],
     ],
+    devOptions: {
+        // https://www.snowpack.dev/reference/configuration#devoptions
+        hostname: '10.10.10.100',
+        open: 'none',
+        port: 7777,
+    },
     routes: [
-        /* Enable an SPA Fallback in development: */
-        // {"match": "routes", "src": ".*", "dest": "/index.html"},
+        /* SPA Fallback for Development:
+          https://www.snowpack.dev/guides/routing#scenario-1-spa-fallback-paths */
+        { match: 'routes', src: '.*', dest: '/index.html' },
     ],
     optimize: {
-        /* Example: Bundle your final build: */
+        /* TODO: Bundle your final build: */
         // "bundle": true,
     },
     packageOptions: {
         /* ... */
-    },
-    devOptions: {
-        hostname: '10.10.10.100',
-        open: 'none',
-        port: 7777,
     },
     buildOptions: {
         /* ... */

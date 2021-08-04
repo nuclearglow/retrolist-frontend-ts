@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "prepare": "husky install",
     "start": "snowpack dev",
     "build": "snowpack build",
     "test": "web-test-runner \"src/**/*.test.tsx\"",
@@ -8,7 +9,6 @@
     "lint:prettier": "prettier --check \"src/**/*.{js,jsx,ts,tsx,css}\"",
     "lint:eslint": "eslint 'src/**/*.ts{,x}'",
     "lint:stylelint": "stylelint 'src/*.{css,tsx}'",
-    "prepare": "husky install",
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "lint-staged": {
