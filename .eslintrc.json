@@ -28,7 +28,7 @@
                 "extensions": [".js", ".jsx", ".ts", ".tsx"]
             }
         ],
-        "prettier/prettier": "error",
+        "prettier/prettier": "error"
     },
     "settings": {
         "react": {
