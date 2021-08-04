@@ -3,6 +3,11 @@
         "statusBar.background": "#61dbfb77"
     },
     "typescript.preferences.importModuleSpecifier": "relative",
+    "[javascript]": {
+        "editor.codeActionsOnSave": [
+            "source.fixAll.eslint"
+        ]
+    },
     "[typescript]": {
         "editor.codeActionsOnSave": [
             "source.organizeImports",
