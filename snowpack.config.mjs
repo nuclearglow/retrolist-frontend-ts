@@ -21,6 +21,12 @@ export default {
                 ...(process.versions.pnp ? { tsc: 'yarn pnpify tsc' } : {}),
             },
         ],
+        [
+            '@snowpack/plugin-webpack',
+            {
+                sourceMap: true,
+            },
+        ],
     ],
     devOptions: {
         // https://www.snowpack.dev/reference/configuration#devoptions

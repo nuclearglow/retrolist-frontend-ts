@@ -4,6 +4,9 @@
 -   Smarter Back Button Handling, do not show if disabled
 -   Bundle production bundle
 
+    -   optimize webpack config
+    -   https://frontendchecklist.io/
+
 -   Build & Deploy
     -   Set up retrolist.svenvowe.de and api.svenvowe.de
     -   Set up https for that
