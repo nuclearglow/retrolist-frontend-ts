@@ -1,11 +1,8 @@
--   Migrate Create Item
--   Migrate Create List
 -   Migrate Login / Logout / Signin
--   Back Button in Lower Bar
 -   Positioning and Style Signin / SignOut
 -   Implement Profile and Settings, place SignOut there
 -   Refactor Item and ItemEdit
--   Refactor Mutations to Interaction Layer
+-   Refactor Mutations to Interaction Layer?
 -   Bundle
 -   Build & Deploy
     -   Set up retrolist.svenvowe.de
