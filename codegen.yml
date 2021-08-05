@@ -1,14 +1,18 @@
 overwrite: true
 schema: '../retrolist-backend/.keystone/schema.graphql'
 documents: 'src/**/*.ts{,x}'
+config:
+    withHooks: true
+    gqlImport: '@apollo/client#gql'
+    useTypeImports: true
 generates:
     types/graphql-generated.ts:
         plugins:
-            - 'typescript'
-            - 'typescript-operations'
-            - 'typescript-react-apollo'
-            - 'fragment-matcher'
-            - 'time':
+            - typescript
+            - typescript-operations
+            - typescript-react-apollo
+            - fragment-matcher
+            - add:
+                  content: '// THIS FILE IS GENERATED, DO NOT EDIT!'
+            - time:
                   format: 'DD.MM.YY HH:mm:ssZ'
-config:
-    withHooks: true
