@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 import React, { useState } from 'react';
 import { Edit2, Save } from 'react-feather';
 import styled from 'styled-components';

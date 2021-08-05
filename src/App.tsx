@@ -1,10 +1,13 @@
-import React, { FC } from 'react';
+import React from 'react';
+import Div100vh from 'react-div-100vh';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
+import CreateList from './components/CreateList';
+import Footer from './components/Footer';
 import Header from './components/Header';
-import List from './components/List';
 import Lists from './components/Lists';
 import Scanline from './components/Scanline';
+import SingleList from './components/SingleList';
 import './styles/animations.css';
 import './styles/fonts.css';
 import './styles/terminal.css';
@@ -86,24 +89,30 @@ const MainStyles = styled.main`
     margin: 10%;
 `;
 
-const App: FC = () => {
+const App = (): JSX.Element => {
     return (
         <BrowserRouter>
-            <PageStyles>
-                <GlobalStyles />
-                <Scanline />
-                <Header />
-                <MainStyles>
-                    <Switch>
-                        <Route path="/list/:id">
-                            <List />
-                        </Route>
-                        <Route path="/">
-                            <Lists />
-                        </Route>
-                    </Switch>
-                </MainStyles>
-            </PageStyles>
+            <Div100vh>
+                <PageStyles>
+                    <GlobalStyles />
+                    <Scanline />
+                    <Header />
+                    <MainStyles>
+                        <Switch>
+                            <Route path="/list/new">
+                                <CreateList />
+                            </Route>
+                            <Route path="/list/:id">
+                                <SingleList />
+                            </Route>
+                            <Route path="/">
+                                <Lists />
+                            </Route>
+                        </Switch>
+                    </MainStyles>
+                    <Footer />
+                </PageStyles>
+            </Div100vh>
         </BrowserRouter>
     );
 };

@@ -684,6 +684,7 @@ select:-webkit-autofill:focus {
 }
 
 .btn-small {
+    border-width: 0px;
     padding: 0.5em 1.3em;
     font-size: 0.9em;
 }

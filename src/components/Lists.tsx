@@ -44,7 +44,8 @@ const Lists = (): JSX.Element => {
                 {user.lists?.map((list: List) => (
                     <li key={list.id}>
                         <Link to={`/list/${list.id}`}>
-                            {list.title} ({getItemCount(list?.items)} items)
+                            {list.title} &gt; {list.subtitle} (
+                            {getItemCount(list?.items)} items)
                         </Link>
                         &nbsp;
                         <button

@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Item, List, useListByIdQuery } from '../../types/graphql-generated';
+import { Item, useListByIdQuery } from '../../types/graphql-generated';
 import getItemCount from '../lib/getItemsFromList';
 import ErrorMessage from './ErrorMessage';
 import SingleItem from './SingleItem';
@@ -32,7 +32,7 @@ const ListStyles = styled.section`
     }
 `;
 
-const List = (): JSX.Element => {
+const SingleList = (): JSX.Element => {
     const { id } = useParams<{ id: string }>();
     const { data, loading, error } = useListByIdQuery({
         variables: { id },
@@ -71,4 +71,4 @@ const List = (): JSX.Element => {
     );
 };
 
-export default List;
+export default SingleList;

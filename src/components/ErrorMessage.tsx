@@ -4,7 +4,7 @@ import React from 'react';
 const ErrorMessage = ({
     error,
 }: {
-    error: ApolloError | string;
+    error: ApolloError | string | null | undefined;
 }): JSX.Element | null => {
     // no error -> render out nothing
     if (!error) return null;
