@@ -4,7 +4,7 @@ import { Trash2 } from 'react-feather';
 import { Link } from 'react-router-dom';
 import { List, useDeleteListByIdMutation } from '../../types/graphql-generated';
 import { CURRENT_USER_QUERY, useUser } from '../hooks/useUser';
-import getItemCount from '../lib/getItemsFromList';
+import { getItemCount } from '../lib/listUtils';
 
 export const DELETE_LIST_MUTATION = gql`
     mutation deleteListById($id: ID!) {
@@ -34,7 +34,8 @@ const Lists = (): JSX.Element => {
     if (!user) {
         return (
             <p>
-                <Link to="/signin">Login</Link> to access your lists.
+                <Link to="/auth">Login</Link> or{' '}
+                <Link to="/auth">Register</Link> to use Retrolist.
             </p>
         );
     }

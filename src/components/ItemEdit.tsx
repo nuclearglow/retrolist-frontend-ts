@@ -96,6 +96,7 @@ const ItemEdit = ({
                     minLength={1}
                     required
                     placeholder="I need..."
+                    autoComplete="off"
                     value={title}
                     onChange={handleChange}
                     onKeyPress={handleKeyEvent}

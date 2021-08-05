@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Item, useListByIdQuery } from '../../types/graphql-generated';
-import getItemCount from '../lib/getItemsFromList';
+import { getItemCount } from '../lib/listUtils';
 import ErrorMessage from './ErrorMessage';
 import SingleItem from './SingleItem';
 

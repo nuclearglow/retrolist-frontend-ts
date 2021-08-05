@@ -15,8 +15,7 @@ a {
 }
 
 a:hover {
-    background-color: var(--primary-color);
-    color: var(--invert-font-color);
+    color: var(--primary-color);
 }
 
 em {
@@ -593,6 +592,24 @@ select:-webkit-autofill:focus {
     box-shadow: none;
 }
 
+.btn.no-padding {
+    padding: 0px;
+}
+
+.btn:disabled,
+.btn[disabled] {
+    color: var(--tertiary-color);
+}
+
+.btn-group .btn {
+    float: left;
+}
+
+.btn:disabled:hover,
+.btn[disabled]:hover {
+    color: var(--tertiary-color);
+}
+
 .btn.btn-ghost {
     border-color: var(--font-color);
     color: var(--font-color);
@@ -608,6 +625,16 @@ select:-webkit-autofill:focus {
 
 .btn.btn-ghost:hover {
     background-color: transparent;
+}
+
+.btn.btn-ghost:disabled,
+.btn.btn-ghost[disabled] {
+    color: var(--tertiary-color);
+}
+
+.btn.btn-ghost:disabled:hover,
+.btn.btn-ghost[disabled]:hover {
+    color: var(--tertiary-color);
 }
 
 .btn-block {
@@ -665,12 +692,6 @@ select:-webkit-autofill:focus {
     border: 1px solid var(--primary-color);
 }
 
-.btn-primary:hover,
-.btn-primary:focus:not(.btn-ghost) {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
 .btn-primary.btn-ghost {
     border-color: var(--primary-color);
     color: var(--primary-color);
@@ -691,10 +712,6 @@ select:-webkit-autofill:focus {
 
 .btn-group {
     overflow: auto;
-}
-
-.btn-group .btn {
-    float: left;
 }
 
 .btn-group .btn-ghost:not(:first-child) {

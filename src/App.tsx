@@ -2,10 +2,13 @@ import React from 'react';
 import Div100vh from 'react-div-100vh';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
+import Auth from './components/Auth';
 import CreateList from './components/CreateList';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Lists from './components/Lists';
+import Profile from './components/Profile';
+import Reset from './components/Reset';
 import Scanline from './components/Scanline';
 import SingleList from './components/SingleList';
 import './styles/animations.css';
@@ -99,6 +102,15 @@ const App = (): JSX.Element => {
                     <Header />
                     <MainStyles>
                         <Switch>
+                            <Route path="/reset">
+                                <Reset />
+                            </Route>
+                            <Route path="/auth">
+                                <Auth />
+                            </Route>
+                            <Route path="/profile">
+                                <Profile />
+                            </Route>
                             <Route path="/list/new">
                                 <CreateList />
                             </Route>
