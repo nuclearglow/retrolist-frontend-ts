@@ -9,7 +9,7 @@ export default {
     },
     env: {
         GRAPHQL_ENDPOINT_DEV: 'http://10.10.10.100:3000/api/graphql',
-        GRAPHQL_ENDPOINT_PROD: 'TODO',
+        GRAPHQL_ENDPOINT_PROD: 'https://retroapi.svenvowe.de/api/graphql',
     },
     plugins: [
         '@snowpack/plugin-react-refresh',
@@ -19,12 +19,6 @@ export default {
                 /* Yarn PnP workaround: see https://www.npmjs.com/package/@snowpack/plugin-typescript */
                 // eslint-disable-next-line no-undef
                 ...(process.versions.pnp ? { tsc: 'yarn pnpify tsc' } : {}),
-            },
-        ],
-        [
-            '@snowpack/plugin-webpack',
-            {
-                sourceMap: true,
             },
         ],
     ],
@@ -40,8 +34,11 @@ export default {
         { match: 'routes', src: '.*', dest: '/index.html' },
     ],
     optimize: {
-        /* TODO: Bundle your final build: */
-        // "bundle": true,
+        bundle: true,
+        minify: true,
+        sourcemap: true,
+        treeshake: true,
+        // TODO: content hashing with future snowpack / esbuild version
     },
     packageOptions: {
         /* ... */

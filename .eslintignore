@@ -1,3 +1,4 @@
 types/*.ts
 apollo.config.js
 web-test-runner.config.js
+scripts/deploy.js
