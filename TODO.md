@@ -4,6 +4,7 @@
 -   Register -> success: history.replace to /login
 -   Fix Styling Issues for Mobile (everywhere)
 -   Add item -> refetch /lists query to update item count or update cache manually
+
 -   Workbox PWA: set up config and build job
 -   Smarter Back Button Handling, do not show if disabled, do not show if leading away
 -   https://frontendchecklist.io/
