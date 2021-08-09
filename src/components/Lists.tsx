@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import React from 'react';
-import { Trash2 } from 'react-feather';
+import { Edit2, Trash2 } from 'react-feather';
 import { Link } from 'react-router-dom';
 import { List, useDeleteListByIdMutation } from '../../types/graphql-generated';
 import { CURRENT_USER_QUERY, useUser } from '../hooks/useUser';
@@ -49,6 +49,9 @@ const Lists = (): JSX.Element => {
                             {getItemCount(list?.items)} items)
                         </Link>
                         &nbsp;
+                        <Link to={`/list/edit/${list.id}`}>
+                            <Edit2 size={16} />
+                        </Link>
                         <button
                             type="button"
                             className="btn btn-small btn-error btn-ghost"

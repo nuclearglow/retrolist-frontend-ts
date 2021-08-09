@@ -25,8 +25,8 @@ const client = new ApolloClient({
                 );
         }),
         new HttpLink({
+            // Snowpack Env: https://www.snowpack.dev/reference/environment-variables
             uri:
-                // Snowpack Env: https://www.snowpack.dev/reference/environment-variables
                 import.meta.env.MODE === 'development'
                     ? import.meta.env.GRAPHQL_ENDPOINT_DEV
                     : import.meta.env.GRAPHQL_ENDPOINT_PROD,

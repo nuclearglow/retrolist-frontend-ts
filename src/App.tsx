@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import Auth from './components/Auth';
 import CreateList from './components/CreateList';
+import EditList from './components/EditList';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Lists from './components/Lists';
@@ -102,23 +103,29 @@ const App = (): JSX.Element => {
                     <Header />
                     <MainStyles>
                         <Switch>
-                            <Route path="/reset">
+                            <Route path="/" exact>
+                                <Lists />
+                            </Route>
+                            <Route path="/lists" exact>
+                                <Lists />
+                            </Route>
+                            <Route path="/reset" exact>
                                 <Reset />
                             </Route>
                             <Route path="/auth">
                                 <Auth />
                             </Route>
-                            <Route path="/profile">
+                            <Route path="/profile" exact>
                                 <Profile />
                             </Route>
-                            <Route path="/list/new">
+                            <Route path="/list/new" exact>
                                 <CreateList />
+                            </Route>
+                            <Route path="/list/edit/:id">
+                                <EditList />
                             </Route>
                             <Route path="/list/:id">
                                 <SingleList />
-                            </Route>
-                            <Route path="/">
-                                <Lists />
                             </Route>
                         </Switch>
                     </MainStyles>
