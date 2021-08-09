@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trash2 } from 'react-feather';
 import styled from 'styled-components';
 import { SingleItemStyles } from './SingleItem';
 
@@ -22,6 +23,7 @@ const ItemEdit = ({
     quantity,
     title,
     onChange,
+    onDelete,
 }: {
     quantity: number;
     title: string;
@@ -30,6 +32,7 @@ const ItemEdit = ({
         newTitle: string,
         triggerSave: boolean,
     ) => void;
+    onDelete?: () => Promise<void>;
 }): JSX.Element => {
     // trigger parent handler - updates props and triggers save on "Enter"
     const change = (
@@ -38,6 +41,12 @@ const ItemEdit = ({
         triggerSave: boolean,
     ) => {
         onChange(newQuantity, newTitle, triggerSave);
+    };
+
+    const handleDelete = () => {
+        if (typeof onDelete === 'function') {
+            onDelete();
+        }
     };
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -101,6 +110,15 @@ const ItemEdit = ({
                     onChange={handleChange}
                     onKeyPress={handleKeyEvent}
                 />
+                {typeof onDelete === 'function' && (
+                    <button
+                        type="button"
+                        className="btn btn-small btn-error btn-ghost"
+                        onClick={() => handleDelete()}
+                    >
+                        <Trash2 size={16} />
+                    </button>
+                )}
             </AmountStyles>
         </SingleItemStyles>
     );

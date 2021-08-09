@@ -2,9 +2,15 @@ import { gql } from '@apollo/client';
 import React, { useState } from 'react';
 import { Edit2, Save } from 'react-feather';
 import styled from 'styled-components';
-import { Item, useSaveItemMutation } from '../../types/graphql-generated';
+import {
+    Item,
+    ListByIdQuery,
+    useDeleteItemMutation,
+    useSaveItemMutation,
+} from '../../types/graphql-generated';
 import { CURRENT_USER_QUERY } from '../hooks/useUser';
 import ItemEdit from './ItemEdit';
+import { QUERY_LIST_BY_ID } from './SingleList';
 
 export const SingleItemStyles = styled.div`
     display: flex;
@@ -34,10 +40,22 @@ export const SAVE_ITEM_MUTATION = gql`
     }
 `;
 
+export const DELETE_ITEM_MUTATION = gql`
+    mutation deleteItem($id: ID!) {
+        deleteItem(id: $id) {
+            id
+            list {
+                id
+            }
+        }
+    }
+`;
+
 const SingleItem = ({ item }: { item: Item }): JSX.Element => {
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState<string>(item.title ?? '');
     const [quantity, setQuantity] = useState<number>(item.quantity ?? 0);
+
     const [save, { loading, error, data }] = useSaveItemMutation({
         variables: {
             id: item.id,
@@ -49,6 +67,47 @@ const SingleItem = ({ item }: { item: Item }): JSX.Element => {
                 query: CURRENT_USER_QUERY,
             },
         ],
+    });
+    const [
+        deleteItem,
+        { loading: deleteLoading, error: deleteError, data: deleteData },
+    ] = useDeleteItemMutation({
+        variables: {
+            id: item.id,
+        },
+        refetchQueries: [
+            {
+                query: CURRENT_USER_QUERY,
+            },
+        ],
+        update: (cache, payload) => {
+            // deleted item references the list id
+            const listId = payload.data?.deleteItem?.list?.id;
+            // the deleted item's id
+            const itemId = payload.data?.deleteItem?.id;
+            // get the old list from cache
+            const data = cache.readQuery<ListByIdQuery>({
+                query: QUERY_LIST_BY_ID,
+                variables: { id: listId },
+            });
+            if (data?.List?.items) {
+                // purge the items with the deleted item's id
+                const updatedList = data.List.items.filter(
+                    ({ id }) => id !== itemId,
+                );
+                // write back to cache
+                cache.writeQuery({
+                    query: QUERY_LIST_BY_ID,
+                    variables: { id: listId },
+                    data: {
+                        List: {
+                            ...data.List,
+                            items: updatedList,
+                        },
+                    },
+                });
+            }
+        },
     });
 
     const handleSave = async () => {
@@ -71,6 +130,10 @@ const SingleItem = ({ item }: { item: Item }): JSX.Element => {
         }
     };
 
+    const handleDelete = async () => {
+        await deleteItem();
+    };
+
     const readOnlyItem = (
         <SingleItemStyles className="terminal-alert terminal-alert-primary">
             <div className="quantity">
@@ -89,6 +152,7 @@ const SingleItem = ({ item }: { item: Item }): JSX.Element => {
                 title={title ?? ''}
                 quantity={quantity ?? 0}
                 onChange={handleChange}
+                onDelete={handleDelete}
             />
 
             <div className="submit">

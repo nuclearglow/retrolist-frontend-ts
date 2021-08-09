@@ -1189,6 +1189,23 @@ export type SaveItemMutation = (
   )> }
 );
 
+export type DeleteItemMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteItemMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteItem?: Maybe<(
+    { __typename?: 'Item' }
+    & Pick<Item, 'id'>
+    & { list?: Maybe<(
+      { __typename?: 'List' }
+      & Pick<List, 'id'>
+    )> }
+  )> }
+);
+
 export type ListByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1580,6 +1597,42 @@ export function useSaveItemMutation(baseOptions?: Apollo.MutationHookOptions<Sav
 export type SaveItemMutationHookResult = ReturnType<typeof useSaveItemMutation>;
 export type SaveItemMutationResult = Apollo.MutationResult<SaveItemMutation>;
 export type SaveItemMutationOptions = Apollo.BaseMutationOptions<SaveItemMutation, SaveItemMutationVariables>;
+export const DeleteItemDocument = gql`
+    mutation deleteItem($id: ID!) {
+  deleteItem(id: $id) {
+    id
+    list {
+      id
+    }
+  }
+}
+    `;
+export type DeleteItemMutationFn = Apollo.MutationFunction<DeleteItemMutation, DeleteItemMutationVariables>;
+
+/**
+ * __useDeleteItemMutation__
+ *
+ * To run a mutation, you first call `useDeleteItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteItemMutation, { data, loading, error }] = useDeleteItemMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteItemMutation(baseOptions?: Apollo.MutationHookOptions<DeleteItemMutation, DeleteItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteItemMutation, DeleteItemMutationVariables>(DeleteItemDocument, options);
+      }
+export type DeleteItemMutationHookResult = ReturnType<typeof useDeleteItemMutation>;
+export type DeleteItemMutationResult = Apollo.MutationResult<DeleteItemMutation>;
+export type DeleteItemMutationOptions = Apollo.BaseMutationOptions<DeleteItemMutation, DeleteItemMutationVariables>;
 export const ListByIdDocument = gql`
     query listById($id: ID!) {
   List(where: {id: $id}) {
@@ -1688,4 +1741,4 @@ export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, Curren
 };
       export default result;
     
-// Generated on 09.08.21 09:39:18+02:00
+// Generated on 09.08.21 16:32:17+02:00

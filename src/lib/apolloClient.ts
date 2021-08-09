@@ -59,6 +59,15 @@ const client = new ApolloClient({
                     },
                 },
             },
+            // List: {
+            //     fields: {
+            //         items: {
+            //             merge(existing, incoming) {
+            //                 return incoming;
+            //             },
+            //         },
+            //     },
+            // },
         },
     }),
 });
