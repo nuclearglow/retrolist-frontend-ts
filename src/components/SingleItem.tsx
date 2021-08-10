@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import React, { useState } from 'react';
-import { Edit2, Save } from 'react-feather';
+import { Edit2 } from 'react-feather';
 import styled from 'styled-components';
 import {
     Item,
@@ -28,7 +28,7 @@ export const SingleItemStyles = styled.div`
     }
 
     .submit {
-        padding: 0 20px;
+        padding-top: 7px;
     }
 `;
 
@@ -153,11 +153,8 @@ const SingleItem = ({ item }: { item: Item }): JSX.Element => {
                 quantity={quantity ?? 0}
                 onChange={handleChange}
                 onDelete={handleDelete}
+                onSave={handleSave}
             />
-
-            <div className="submit">
-                <Save onClick={handleSave} />
-            </div>
         </SingleItemStyles>
     );
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2 } from 'react-feather';
+import { Save, Trash2 } from 'react-feather';
 import styled from 'styled-components';
 import { SingleItemStyles } from './SingleItem';
 
@@ -15,7 +15,8 @@ const AmountStyles = styled.div`
 
 const AmountButtonStyles = styled.button`
     border: 0;
-    padding: 0 20px;
+    padding-top: 0;
+    padding-bottom: 0;
     font-size: calc(var(--global-font-size) * 2);
 `;
 
@@ -24,6 +25,7 @@ const ItemEdit = ({
     title,
     onChange,
     onDelete,
+    onSave,
 }: {
     quantity: number;
     title: string;
@@ -33,6 +35,7 @@ const ItemEdit = ({
         triggerSave: boolean,
     ) => void;
     onDelete?: () => Promise<void>;
+    onSave?: () => Promise<void>;
 }): JSX.Element => {
     // trigger parent handler - updates props and triggers save on "Enter"
     const change = (
@@ -46,6 +49,12 @@ const ItemEdit = ({
     const handleDelete = () => {
         if (typeof onDelete === 'function') {
             onDelete();
+        }
+    };
+
+    const handleSave = () => {
+        if (typeof onSave === 'function') {
+            onSave();
         }
     };
 
@@ -79,10 +88,20 @@ const ItemEdit = ({
 
     return (
         <SingleItemStyles>
+            {typeof onDelete === 'function' && (
+                <button
+                    type="button"
+                    className="btn btn-small btn-error btn-ghost"
+                    onClick={() => handleDelete()}
+                >
+                    <Trash2 size={16} />
+                </button>
+            )}
+
             <AmountStyles>
                 <AmountButtonStyles
                     type="button"
-                    className="button btn btn-primary btn-ghost"
+                    className="btn btn-small btn-primary btn-ghost"
                     onClick={() => change(quantity + 1, title, false)}
                 >
                     +
@@ -92,7 +111,7 @@ const ItemEdit = ({
 
                 <AmountButtonStyles
                     type="button"
-                    className="btn btn-primary btn-ghost"
+                    className="btn btn-small btn-primary btn-ghost"
                     onClick={() => change(quantity - 1, title, false)}
                 >
                     -
@@ -110,16 +129,17 @@ const ItemEdit = ({
                     onChange={handleChange}
                     onKeyPress={handleKeyEvent}
                 />
-                {typeof onDelete === 'function' && (
-                    <button
-                        type="button"
-                        className="btn btn-small btn-error btn-ghost"
-                        onClick={() => handleDelete()}
-                    >
-                        <Trash2 size={16} />
-                    </button>
-                )}
             </AmountStyles>
+
+            {typeof onSave === 'function' && (
+                <button
+                    type="button"
+                    className="btn btn-small btn-primary btn-ghost"
+                    onClick={() => handleSave()}
+                >
+                    <Save />
+                </button>
+            )}
         </SingleItemStyles>
     );
 };

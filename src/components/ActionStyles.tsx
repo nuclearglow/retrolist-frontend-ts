@@ -20,4 +20,5 @@ export const ActionListStyles = styled.li`
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    padding: 5px 0;
 `;

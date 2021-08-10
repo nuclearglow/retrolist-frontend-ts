@@ -17,7 +17,7 @@ const CreateItemsStyles = styled.div`
 
     button {
         border: none;
-        padding: 0 20px;
+        padding: 0 10px;
         font-size: calc(var(--global-font-size) * 2);
         cursor: pointer;
     }

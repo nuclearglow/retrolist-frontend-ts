@@ -15,11 +15,16 @@ const FooterStyles = styled.footer`
     .left {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
     }
 
     .left {
-        width: 20%;
+        padding: 0 5px;
+    }
+
+    .right {
+        width: 100%;
+        text-align: right;
     }
 
     img {
