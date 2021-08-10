@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import { useListByIdQuery } from '../../types/graphql-generated';
 
@@ -119,12 +119,14 @@ const Title = (): JSX.Element | null => {
 
     return (
         <TitleStyles>
-            <div className="wrapper">
-                <div className="title">
-                    {title}
-                    <div className="subtitle">{subtitle}</div>
+            <Link to="/">
+                <div className="wrapper">
+                    <div className="title">
+                        {title}
+                        <div className="subtitle">{subtitle}</div>
+                    </div>
                 </div>
-            </div>
+            </Link>
             <div className="scanline" />
         </TitleStyles>
     );

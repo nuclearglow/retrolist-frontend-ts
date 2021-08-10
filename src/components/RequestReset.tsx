@@ -4,6 +4,7 @@ import { useRequestResetMutation } from '../../types/graphql-generated';
 import useForm from '../hooks/useForm';
 import DisplayError from './ErrorMessage';
 import FormStyles from './FormStyles';
+import Message from './Message';
 
 // sign in in with keystone graphql
 export const REQUEST_RESET_MUTATION = gql`
@@ -20,7 +21,6 @@ const RequestReset = (): JSX.Element => {
     const { inputs, handleChange, resetForm } = useForm({
         email: '',
     });
-
     const [requestReset, { data, loading, error }] = useRequestResetMutation({
         variables: {
             email: `${inputs.email}`,
@@ -43,22 +43,26 @@ const RequestReset = (): JSX.Element => {
 
             <fieldset disabled={loading} aria-busy={loading}>
                 {data?.sendUserPasswordResetLink === null && (
-                    <p>Success! Check your email for a reset link!</p>
+                    <Message>
+                        Success! Check your email for a reset link!
+                    </Message>
                 )}
 
-                <label htmlFor="email">
-                    Email
-                    <input
-                        required
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder="Email"
-                        autoComplete="email"
-                        value={`${inputs.email}`}
-                        onChange={handleChange}
-                    />
-                </label>
+                <div className="form-group">
+                    <label htmlFor="email">
+                        Email
+                        <input
+                            required
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Email"
+                            autoComplete="email"
+                            value={`${inputs.email}`}
+                            onChange={handleChange}
+                        />
+                    </label>
+                </div>
             </fieldset>
             <button className="btn btn-primary" type="submit">
                 Request Password Reset

@@ -2,16 +2,20 @@ import React from 'react';
 import Div100vh from 'react-div-100vh';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
-import Auth from './components/Auth';
 import CreateList from './components/CreateList';
 import EditList from './components/EditList';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Lists from './components/Lists';
+import Login from './components/Login';
 import Profile from './components/Profile';
+import Register from './components/Register';
+import RequestReset from './components/RequestReset';
+import RequestVerification from './components/RequestVerification';
 import Reset from './components/Reset';
 import Scanline from './components/Scanline';
 import SingleList from './components/SingleList';
+import Verify from './components/Verify';
 import './styles/animations.css';
 import './styles/fonts.css';
 import './styles/terminal.css';
@@ -90,7 +94,7 @@ const PageStyles = styled.div`
 const MainStyles = styled.main`
     grid-area: main;
     overflow: auto;
-    margin: 10%;
+    margin: 20px;
 `;
 
 const App = (): JSX.Element => {
@@ -106,17 +110,32 @@ const App = (): JSX.Element => {
                             <Route path="/" exact>
                                 <Lists />
                             </Route>
-                            <Route path="/lists" exact>
-                                <Lists />
+
+                            <Route path="/verify" exact>
+                                <Verify />
+                            </Route>
+
+                            <Route path="/register" exact>
+                                <Register />
+                            </Route>
+
+                            <Route path="/login" exact>
+                                <Login />
+                            </Route>
+
+                            <Route path="/request/reset" exact>
+                                <RequestReset />
                             </Route>
                             <Route path="/reset" exact>
                                 <Reset />
                             </Route>
-                            <Route path="/auth">
-                                <Auth />
+
+                            <Route path="/request/verification" exact>
+                                <RequestVerification />
                             </Route>
-                            <Route path="/profile" exact>
-                                <Profile />
+
+                            <Route path="/lists" exact>
+                                <Lists />
                             </Route>
                             <Route path="/list/new" exact>
                                 <CreateList />
@@ -126,6 +145,10 @@ const App = (): JSX.Element => {
                             </Route>
                             <Route path="/list/:id">
                                 <SingleList />
+                            </Route>
+
+                            <Route path="/profile" exact>
+                                <Profile />
                             </Route>
                         </Switch>
                     </MainStyles>

@@ -14,7 +14,7 @@ const loading = keyframes`
 
 const FormStyles = styled.form`
     fieldset {
-        margin: 5px 0;
+        margin: 10px 0;
 
         &[disabled] {
             opacity: 0.5;
@@ -24,7 +24,7 @@ const FormStyles = styled.form`
             height: 5px;
             content: '';
             display: block;
-            margin-bottom: 10px;
+            margin: 5px 0px 10px 0px;
 
             background-image: linear-gradient(
                 to right,

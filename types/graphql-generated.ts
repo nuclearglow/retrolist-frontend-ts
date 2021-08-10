@@ -373,6 +373,8 @@ export type Mutation = {
   createInitialUser: UserAuthenticationWithPasswordSuccess;
   sendUserPasswordResetLink?: Maybe<SendUserPasswordResetLinkResult>;
   redeemUserPasswordResetToken?: Maybe<RedeemUserPasswordResetTokenResult>;
+  verifyUser?: Maybe<Scalars['String']>;
+  requestVerificationEmail?: Maybe<Scalars['String']>;
   endSession: Scalars['Boolean'];
 };
 
@@ -490,6 +492,17 @@ export type MutationRedeemUserPasswordResetTokenArgs = {
   email: Scalars['String'];
   token: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationVerifyUserArgs = {
+  email?: Maybe<Scalars['String']>;
+  verificationToken?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationRequestVerificationEmailArgs = {
+  email?: Maybe<Scalars['String']>;
 };
 
 export enum PasswordAuthErrorCode {
@@ -679,6 +692,10 @@ export enum SortUsersBy {
   NameDesc = 'name_DESC',
   EmailAsc = 'email_ASC',
   EmailDesc = 'email_DESC',
+  VerifiedAsc = 'verified_ASC',
+  VerifiedDesc = 'verified_DESC',
+  VerificationTokenAsc = 'verificationToken_ASC',
+  VerificationTokenDesc = 'verificationToken_DESC',
   ListsAsc = 'lists_ASC',
   ListsDesc = 'lists_DESC',
   PasswordResetIssuedAtAsc = 'passwordResetIssuedAt_ASC',
@@ -698,6 +715,8 @@ export type User = {
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  verified?: Maybe<Scalars['Boolean']>;
+  verificationToken?: Maybe<Scalars['String']>;
   password_is_set?: Maybe<Scalars['Boolean']>;
   lists: Array<List>;
   _listsMeta?: Maybe<_QueryMeta>;
@@ -748,6 +767,8 @@ export type UserAuthenticationWithPasswordSuccess = {
 export type UserCreateInput = {
   name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  verified?: Maybe<Scalars['Boolean']>;
+  verificationToken?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   lists?: Maybe<ListRelateToManyInput>;
   passwordResetToken?: Maybe<Scalars['String']>;
@@ -768,6 +789,8 @@ export type UserRelateToOneInput = {
 export type UserUpdateInput = {
   name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  verified?: Maybe<Scalars['Boolean']>;
+  verificationToken?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   lists?: Maybe<ListRelateToManyInput>;
   passwordResetToken?: Maybe<Scalars['String']>;
@@ -821,6 +844,26 @@ export type UserWhereInput = {
   email_not_ends_with_i?: Maybe<Scalars['String']>;
   email_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   email_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  verified?: Maybe<Scalars['Boolean']>;
+  verified_not?: Maybe<Scalars['Boolean']>;
+  verificationToken?: Maybe<Scalars['String']>;
+  verificationToken_not?: Maybe<Scalars['String']>;
+  verificationToken_contains?: Maybe<Scalars['String']>;
+  verificationToken_not_contains?: Maybe<Scalars['String']>;
+  verificationToken_starts_with?: Maybe<Scalars['String']>;
+  verificationToken_not_starts_with?: Maybe<Scalars['String']>;
+  verificationToken_ends_with?: Maybe<Scalars['String']>;
+  verificationToken_not_ends_with?: Maybe<Scalars['String']>;
+  verificationToken_i?: Maybe<Scalars['String']>;
+  verificationToken_not_i?: Maybe<Scalars['String']>;
+  verificationToken_contains_i?: Maybe<Scalars['String']>;
+  verificationToken_not_contains_i?: Maybe<Scalars['String']>;
+  verificationToken_starts_with_i?: Maybe<Scalars['String']>;
+  verificationToken_not_starts_with_i?: Maybe<Scalars['String']>;
+  verificationToken_ends_with_i?: Maybe<Scalars['String']>;
+  verificationToken_not_ends_with_i?: Maybe<Scalars['String']>;
+  verificationToken_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  verificationToken_not_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   password_is_set?: Maybe<Scalars['Boolean']>;
   /**  condition must be true for all nodes  */
   lists_every?: Maybe<ListWhereInput>;
@@ -1151,6 +1194,16 @@ export type RequestResetMutation = (
   )> }
 );
 
+export type RequestVerificationEmailMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type RequestVerificationEmailMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'requestVerificationEmail'>
+);
+
 export type ResetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -1223,6 +1276,16 @@ export type ListByIdQuery = (
   )> }
 );
 
+export type VerifyUserMutationVariables = Exact<{
+  verificationToken: Scalars['String'];
+}>;
+
+
+export type VerifyUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'verifyUser'>
+);
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1230,7 +1293,7 @@ export type CurrentUserQuery = (
   { __typename?: 'Query' }
   & { authenticatedItem?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'email' | 'name'>
+    & Pick<User, 'id' | 'email' | 'name' | 'verified'>
     & { lists: Array<(
       { __typename?: 'List' }
       & Pick<List, 'id' | 'title' | 'subtitle'>
@@ -1496,6 +1559,37 @@ export function useRequestResetMutation(baseOptions?: Apollo.MutationHookOptions
 export type RequestResetMutationHookResult = ReturnType<typeof useRequestResetMutation>;
 export type RequestResetMutationResult = Apollo.MutationResult<RequestResetMutation>;
 export type RequestResetMutationOptions = Apollo.BaseMutationOptions<RequestResetMutation, RequestResetMutationVariables>;
+export const RequestVerificationEmailDocument = gql`
+    mutation requestVerificationEmail($email: String!) {
+  requestVerificationEmail(email: $email)
+}
+    `;
+export type RequestVerificationEmailMutationFn = Apollo.MutationFunction<RequestVerificationEmailMutation, RequestVerificationEmailMutationVariables>;
+
+/**
+ * __useRequestVerificationEmailMutation__
+ *
+ * To run a mutation, you first call `useRequestVerificationEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRequestVerificationEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [requestVerificationEmailMutation, { data, loading, error }] = useRequestVerificationEmailMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useRequestVerificationEmailMutation(baseOptions?: Apollo.MutationHookOptions<RequestVerificationEmailMutation, RequestVerificationEmailMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RequestVerificationEmailMutation, RequestVerificationEmailMutationVariables>(RequestVerificationEmailDocument, options);
+      }
+export type RequestVerificationEmailMutationHookResult = ReturnType<typeof useRequestVerificationEmailMutation>;
+export type RequestVerificationEmailMutationResult = Apollo.MutationResult<RequestVerificationEmailMutation>;
+export type RequestVerificationEmailMutationOptions = Apollo.BaseMutationOptions<RequestVerificationEmailMutation, RequestVerificationEmailMutationVariables>;
 export const ResetPasswordDocument = gql`
     mutation resetPassword($email: String!, $password: String!, $token: String!) {
   redeemUserPasswordResetToken(email: $email, password: $password, token: $token) {
@@ -1674,6 +1768,37 @@ export function useListByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<L
 export type ListByIdQueryHookResult = ReturnType<typeof useListByIdQuery>;
 export type ListByIdLazyQueryHookResult = ReturnType<typeof useListByIdLazyQuery>;
 export type ListByIdQueryResult = Apollo.QueryResult<ListByIdQuery, ListByIdQueryVariables>;
+export const VerifyUserDocument = gql`
+    mutation verifyUser($verificationToken: String!) {
+  verifyUser(verificationToken: $verificationToken)
+}
+    `;
+export type VerifyUserMutationFn = Apollo.MutationFunction<VerifyUserMutation, VerifyUserMutationVariables>;
+
+/**
+ * __useVerifyUserMutation__
+ *
+ * To run a mutation, you first call `useVerifyUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyUserMutation, { data, loading, error }] = useVerifyUserMutation({
+ *   variables: {
+ *      verificationToken: // value for 'verificationToken'
+ *   },
+ * });
+ */
+export function useVerifyUserMutation(baseOptions?: Apollo.MutationHookOptions<VerifyUserMutation, VerifyUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyUserMutation, VerifyUserMutationVariables>(VerifyUserDocument, options);
+      }
+export type VerifyUserMutationHookResult = ReturnType<typeof useVerifyUserMutation>;
+export type VerifyUserMutationResult = Apollo.MutationResult<VerifyUserMutation>;
+export type VerifyUserMutationOptions = Apollo.BaseMutationOptions<VerifyUserMutation, VerifyUserMutationVariables>;
 export const CurrentUserDocument = gql`
     query currentUser {
   authenticatedItem {
@@ -1681,6 +1806,7 @@ export const CurrentUserDocument = gql`
       id
       email
       name
+      verified
       lists {
         id
         title
@@ -1741,4 +1867,4 @@ export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, Curren
 };
       export default result;
     
-// Generated on 09.08.21 16:32:17+02:00
+// Generated on 10.08.21 15:41:41+02:00

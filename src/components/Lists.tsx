@@ -1,10 +1,12 @@
 import { gql } from '@apollo/client';
 import React from 'react';
-import { Edit2, Trash2 } from 'react-feather';
-import { Link } from 'react-router-dom';
+import { Edit2, List as ListIcon, PlusCircle, Trash2 } from 'react-feather';
+import { Link, Redirect } from 'react-router-dom';
 import { List, useDeleteListByIdMutation } from '../../types/graphql-generated';
 import { CURRENT_USER_QUERY, useUser } from '../hooks/useUser';
 import { getItemCount } from '../lib/listUtils';
+import { ActionLinkStyles, ActionListStyles } from './ActionStyles';
+import Message from './Message';
 
 export const DELETE_LIST_MUTATION = gql`
     mutation deleteListById($id: ID!) {
@@ -34,16 +36,23 @@ const Lists = (): JSX.Element => {
     if (!user) {
         return (
             <p>
-                <Link to="/auth">Login</Link> or{' '}
-                <Link to="/auth">Register</Link> to use Retrolist.
+                <Link to="/login">Login</Link> or{' '}
+                <Link to="/register">Register</Link> to use Retrolist.
             </p>
         );
+    } else if (!user.verified) {
+        return (
+            <Redirect to="/request/verification?unverifiedAccountError=true" />
+        );
     }
+
     return (
         <nav>
             <ul>
                 {user.lists?.map((list: List) => (
-                    <li key={list.id}>
+                    <ActionListStyles key={list.id}>
+                        <ListIcon size={16} />
+                        &nbsp;
                         <Link to={`/list/${list.id}`}>
                             {list.title} &gt; {list.subtitle} (
                             {getItemCount(list?.items)} items)
@@ -59,14 +68,19 @@ const Lists = (): JSX.Element => {
                         >
                             <Trash2 size={16} />
                         </button>
-                    </li>
+                    </ActionListStyles>
                 ))}
             </ul>
-            <p className="terminal-prompt">
-                <Link to="/list/new" className="no-style">
-                    Create new RetroList...
-                </Link>
-            </p>
+            {user?.lists?.length === 0 && (
+                <Message>You have no Retrolists yet. Create one now...</Message>
+            )}
+
+            <Link to="/list/new" className="no-style">
+                <ActionLinkStyles>
+                    <PlusCircle />
+                    <p>Create new RetroList...</p>
+                </ActionLinkStyles>
+            </Link>
         </nav>
     );
 };

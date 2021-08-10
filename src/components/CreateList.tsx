@@ -63,31 +63,35 @@ const CreateList = (): JSX.Element => {
             <ErrorMessage error={error} />
 
             <fieldset disabled={loading} aria-busy={loading}>
-                <label htmlFor="title">
-                    Title
-                    <input
-                        required
-                        type="text"
-                        id="title"
-                        name="title"
-                        placeholder="Title"
-                        autoComplete="title"
-                        value={`${inputs.title}`}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label htmlFor="subtitle">
-                    Subtitle
-                    <input
-                        required
-                        type="text"
-                        id="subtitle"
-                        name="subtitle"
-                        placeholder="Subtitle"
-                        value={`${inputs.subtitle}`}
-                        onChange={handleChange}
-                    />
-                </label>
+                <div className="form-group">
+                    <label htmlFor="title">
+                        Title
+                        <input
+                            required
+                            type="text"
+                            id="title"
+                            name="title"
+                            placeholder="Title"
+                            autoComplete="title"
+                            value={`${inputs.title}`}
+                            onChange={handleChange}
+                        />
+                    </label>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="subtitle">
+                        Subtitle
+                        <input
+                            required
+                            type="text"
+                            id="subtitle"
+                            name="subtitle"
+                            placeholder="Subtitle"
+                            value={`${inputs.subtitle}`}
+                            onChange={handleChange}
+                        />
+                    </label>
+                </div>
             </fieldset>
             <button className="btn btn-primary" type="submit">
                 Create List

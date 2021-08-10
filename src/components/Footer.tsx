@@ -1,9 +1,10 @@
 import React from 'react';
-import { ArrowLeft, User } from 'react-feather';
+import { User } from 'react-feather';
 import { useRouteMatch } from 'react-router';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUser } from '../hooks/useUser';
+import BackButton from './BackButton';
 import CreateItems from './CreateItems';
 
 const FooterStyles = styled.footer`
@@ -35,13 +36,7 @@ const Footer = (): JSX.Element => {
     return (
         <FooterStyles>
             <div className="left">
-                <button
-                    type="button"
-                    className="btn btn-small btn-primary btn-ghost"
-                    onClick={history.goBack}
-                >
-                    <ArrowLeft />
-                </button>
+                <BackButton />
                 {user?.id && (
                     <div className="user-actions">
                         <Link to="/profile">

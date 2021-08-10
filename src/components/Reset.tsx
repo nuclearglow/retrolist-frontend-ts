@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useResetPasswordMutation } from '../../types/graphql-generated';
 import useForm from '../hooks/useForm';
 import useQueryParams from '../hooks/useQueryParams';
@@ -43,6 +43,8 @@ const Reset = (): JSX.Element => {
         },
     });
 
+    const history = useHistory();
+
     // api always is successful, so we need manual error handling: if no code, set the error
     const successfulError = data?.redeemUserPasswordResetToken?.code
         ? data?.redeemUserPasswordResetToken.message
@@ -53,7 +55,9 @@ const Reset = (): JSX.Element => {
         e.preventDefault();
         // sign in to backend - handling of errors is done elsewhere, so we can just error it to console
         await reset();
-        resetForm();
+        if (!error && !successfulError) {
+            history.replace('/login?resetSuccess=true');
+        }
     };
 
     return (
@@ -63,37 +67,35 @@ const Reset = (): JSX.Element => {
             <DisplayError error={error || successfulError} />
 
             <fieldset disabled={loading} aria-busy={loading}>
-                {data?.redeemUserPasswordResetToken === null && (
-                    <p>
-                        Success! You can now <Link to="/auth">login</Link>!
-                    </p>
-                )}
-
-                <label htmlFor="email">
-                    Email
-                    <input
-                        required
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder="Email"
-                        autoComplete="email"
-                        value={`${inputs.email}`}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label htmlFor="password">
-                    Password
-                    <input
-                        required
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Password"
-                        value={`${inputs.password}`}
-                        onChange={handleChange}
-                    />
-                </label>
+                <div className="form-group">
+                    <label htmlFor="email">
+                        Email
+                        <input
+                            required
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Email"
+                            autoComplete="email"
+                            value={`${inputs.email}`}
+                            onChange={handleChange}
+                        />
+                    </label>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">
+                        Password
+                        <input
+                            required
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Password"
+                            value={`${inputs.password}`}
+                            onChange={handleChange}
+                        />
+                    </label>
+                </div>
             </fieldset>
             <button className="btn btn-primary" type="submit">
                 Reset Password

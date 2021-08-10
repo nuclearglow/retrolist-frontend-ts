@@ -487,7 +487,7 @@ input[type='text'],
 input[type='number'],
 input[type='password'],
 input[type='search'] {
-    border: 1px --input-style --font-color;
+    border: 1px var(--input-style) var(--font-color);
     width: 100%;
     padding: 0.7em 0.5em;
     font-size: 1em;
@@ -508,7 +508,7 @@ input[type='password']:focus,
 input[type='search']:focus {
     outline: none;
     appearance: none;
-    border: 1px solid --font-color;
+    border: 1px solid var(--subtitle-color);
 }
 
 input[type='text']:not(:placeholder-shown):invalid,
@@ -535,7 +535,7 @@ textarea {
     height: auto;
     width: 100%;
     resize: none;
-    border: 1px --input-style --font-color;
+    border: 1px var(--input-style) var(--font-color);
     padding: 0.5em;
     font-size: 1em;
     font-family: var(--font-family);
@@ -546,7 +546,7 @@ textarea {
 textarea:focus {
     outline: none;
     appearance: none;
-    border: 1px solid --font-color;
+    border: 1px solid var(--font-color);
 }
 
 textarea:not(:placeholder-shown):invalid {
@@ -560,15 +560,19 @@ textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-    border: 1px solid --font-color;
+    border: 1px solid var(--font-color);
     -webkit-text-fill-color: var(--font-color);
-    box-shadow: 0 0 0 1000px --invert-font-color inset;
+    box-shadow: 0 0 0 1000px var(--invert-font-color) inset;
     transition: background-color 5000s ease-in-out 0s;
 }
 
 .form-group {
     margin-bottom: var(--global-line-height);
     overflow: auto;
+}
+
+.form-group:last-of-type {
+    margin-bottom: 0;
 }
 
 .btn {
@@ -770,7 +774,7 @@ select:-webkit-autofill:focus {
     color: var(--font-color);
     padding: 1em;
     border: 1px solid var(--font-color);
-    margin-bottom: var(--global-space);
+    margin: var(--global-space) 0;
 }
 
 .terminal-alert-error {
