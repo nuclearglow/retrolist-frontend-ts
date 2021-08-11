@@ -21,3 +21,11 @@ export const getItemCount = (items: Array<Item>): number => {
         0,
     );
 };
+
+export const getItemCountDone = (items: Array<Item>): number => {
+    return getItemCount(items.filter((item) => item.done));
+};
+
+export const getItemCountTodo = (items: Array<Item>): number => {
+    return getItemCount(items.filter((item) => !item.done));
+};

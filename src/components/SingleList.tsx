@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Item, useItemsByListIdQuery } from '../../types/graphql-generated';
-import { getItemCount } from '../lib/listUtils';
+import { getItemCountTodo } from '../lib/listUtils';
 import ErrorMessage from './ErrorMessage';
 import ListProgress from './ListProgress';
 import SingleItem from './SingleItem';
@@ -56,7 +56,7 @@ const SingleList = (): JSX.Element => {
         return <ErrorMessage error={error} />;
     }
 
-    const itemsNeeded = getItemCount(items ?? []);
+    const itemsNeeded = getItemCountTodo(items ?? []);
 
     return (
         <ListStyles>

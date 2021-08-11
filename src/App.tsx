@@ -6,6 +6,7 @@ import ListCreate from './components/CreateList';
 import EditList from './components/EditList';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import Imprint from './components/Imprint';
 import Lists from './components/Lists';
 import Login from './components/Login';
 import Profile from './components/Profile';
@@ -151,6 +152,10 @@ const App = (): JSX.Element => {
 
                             <Route path="/profile" exact>
                                 <Profile />
+                            </Route>
+
+                            <Route path="/imprint" exact>
+                                <Imprint />
                             </Route>
                         </Switch>
                     </MainStyles>

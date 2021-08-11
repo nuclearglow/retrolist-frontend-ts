@@ -1,5 +1,5 @@
 import React from 'react';
-import { User } from 'react-feather';
+import { Info, User } from 'react-feather';
 import { useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -19,11 +19,10 @@ const FooterStyles = styled.footer`
     }
 
     .left {
-        padding: 0 5px;
+        min-width: 120px;
     }
 
     .right {
-        width: 100%;
         text-align: right;
     }
 
@@ -49,6 +48,14 @@ const Footer = (): JSX.Element => {
                                 className="btn btn-small btn-ghost"
                             >
                                 <User />
+                            </button>
+                        </Link>
+                        <Link to="/imprint">
+                            <button
+                                type="button"
+                                className="btn btn-small btn-ghost"
+                            >
+                                <Info />
                             </button>
                         </Link>
                     </div>
