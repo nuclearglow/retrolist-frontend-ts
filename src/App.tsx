@@ -96,7 +96,7 @@ const PageStyles = styled.div`
 const MainStyles = styled.main`
     grid-area: main;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin: 20px 20px 0 20px;
 `;
 

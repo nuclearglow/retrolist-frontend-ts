@@ -4,8 +4,8 @@ const Imprint = (): JSX.Element => {
     return (
         <>
             <div className="terminal-prompt">Impressum</div>
+            <p>Anbieter</p>
             <table>
-                <caption>Anbieter</caption>
                 <tbody>
                     <tr>
                         <td>Sven Vowe</td>
@@ -18,8 +18,8 @@ const Imprint = (): JSX.Element => {
                     </tr>
                 </tbody>
             </table>
+            <p>Kontakt</p>
             <table>
-                <caption>Kontakt</caption>
                 <tbody>
                     <tr>
                         <th>Telefon</th>
@@ -45,11 +45,10 @@ const Imprint = (): JSX.Element => {
                     </tr>
                 </tbody>
             </table>
+            <p>
+                Bei redaktionellen Inhalten verantwortlich nach § 55 Abs.2 RStV:
+            </p>
             <table>
-                <caption>
-                    Bei redaktionellen Inhalten verantwortlich nach § 55 Abs.2
-                    RStV:
-                </caption>
                 <tbody>
                     <tr>
                         <td>Sven Vowe</td>

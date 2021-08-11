@@ -1,14 +1,15 @@
 {
   "private": true,
   "name": "retrolist-frontend",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "UNLICENSED",
   "scripts": {
     "prepare": "husky install",
     "start": "snowpack dev",
     "build": "snowpack build",
     "build:serve": "sirv build --port 8080 --cors --single",
-    "deploy": "node ./scripts/deploy.js",
+    "deploy:remote": "node ./scripts/deploy.js",
+    "deploy": "run-s build deploy:remote",
     "test": "web-test-runner \"src/**/*.test.tsx\"",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "run-p lint:prettier lint:eslint lint:stylelint",

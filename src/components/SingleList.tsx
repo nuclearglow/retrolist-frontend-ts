@@ -32,7 +32,7 @@ const ListStyles = styled.section`
 
     .items {
         flex: 1;
-        overflow-y: scroll;
+        overflow-y: auto;
         display: flex;
         flex-wrap: wrap;
         align-items: baseline;
