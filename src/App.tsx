@@ -2,7 +2,7 @@ import React from 'react';
 import Div100vh from 'react-div-100vh';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
-import CreateList from './components/CreateList';
+import ListCreate from './components/CreateList';
 import EditList from './components/EditList';
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -44,8 +44,9 @@ const GlobalStyles = createGlobalStyle`
         --tertiary-color: #a3abba;
         --primary-color: #62c4ff;
         --error-color: #ff3c74;
-        --progress-bar-background: #3f3f44;
-        --progress-bar-fill: #62c4ff;
+        --success-color: #00d22b;
+        --progress-bar-background: #f975f7;
+        --progress-bar-fill: #00d22b;
         --code-bg-color: #3f3f44;
         --quote-color: #9ca2ab;
         --input-style: solid;
@@ -93,8 +94,9 @@ const PageStyles = styled.div`
 
 const MainStyles = styled.main`
     grid-area: main;
-    overflow: auto;
-    margin: 20px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin: 20px 20px 0 20px;
 `;
 
 const App = (): JSX.Element => {
@@ -138,7 +140,7 @@ const App = (): JSX.Element => {
                                 <Lists />
                             </Route>
                             <Route path="/list/new" exact>
-                                <CreateList />
+                                <ListCreate />
                             </Route>
                             <Route path="/list/edit/:id">
                                 <EditList />

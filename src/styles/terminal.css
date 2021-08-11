@@ -420,7 +420,7 @@ img {
     position: absolute;
     border: 6px solid transparent;
     top: -38px;
-    right: 0;
+    right: 4px;
     transform: translateX(50%);
     transform: translateX(50%);
 }
@@ -705,6 +705,24 @@ select:-webkit-autofill:focus {
 .btn-primary.btn-ghost:hover {
     border-color: var(--primary-color);
     color: var(--primary-color);
+    z-index: 2;
+}
+
+.btn-success {
+    color: var(--invert-font-color);
+    background-color: var(--success-color);
+    border: 1px solid var(--success-color);
+}
+
+.btn-success.btn-ghost {
+    border-color: var(--success-color);
+    color: var(--success-color);
+}
+
+.btn-success.btn-ghost:focus,
+.btn-success.btn-ghost:hover {
+    border-color: var(--success-color);
+    color: var(--success-color);
     z-index: 2;
 }
 

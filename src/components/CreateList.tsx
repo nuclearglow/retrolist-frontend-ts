@@ -19,7 +19,7 @@ export const CREATE_LIST_MUTATION = gql`
     }
 `;
 
-const CreateList = (): JSX.Element => {
+const ListCreate = (): JSX.Element => {
     const history = useHistory();
     const user = useUser();
 
@@ -100,4 +100,4 @@ const CreateList = (): JSX.Element => {
     );
 };
 
-export default CreateList;
+export default ListCreate;

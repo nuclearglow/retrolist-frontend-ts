@@ -70,6 +70,12 @@ export const useItem = (initialItem?: Item, listId?: string) => {
             {
                 query: CURRENT_USER_QUERY,
             },
+            {
+                query: ITEMS_BY_LIST_ID,
+                variables: {
+                    id: item.list?.id,
+                },
+            },
         ],
     });
 

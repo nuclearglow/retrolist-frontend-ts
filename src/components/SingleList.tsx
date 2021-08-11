@@ -5,23 +5,34 @@ import styled from 'styled-components';
 import { Item, useItemsByListIdQuery } from '../../types/graphql-generated';
 import { getItemCount } from '../lib/listUtils';
 import ErrorMessage from './ErrorMessage';
+import ListProgress from './ListProgress';
 import SingleItem from './SingleItem';
 
 export const ITEMS_BY_LIST_ID = gql`
     query itemsByListId($id: ID!) {
-        allItems(where: { list: { id: $id } }, sortBy: done_DESC) {
+        allItems(where: { list: { id: $id } }, sortBy: done_ASC) {
             id
             title
             quantity
             done
+            list {
+                id
+            }
         }
     }
 `;
 
 const ListStyles = styled.section`
     padding: 0 10px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 
     .items {
+        flex: 1;
+        overflow-y: scroll;
         display: flex;
         flex-wrap: wrap;
         align-items: baseline;
@@ -62,6 +73,8 @@ const SingleList = (): JSX.Element => {
                     <SingleItem key={item.id} item={item} />
                 )) ?? <ErrorMessage error={'No items'}></ErrorMessage>}
             </div>
+
+            <ListProgress items={items ?? []} />
         </ListStyles>
     );
 };
