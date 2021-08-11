@@ -1,118 +1,69 @@
 import React from 'react';
 import { Save, Trash2 } from 'react-feather';
-import styled from 'styled-components';
+import type { Item } from '../../types/graphql-generated';
+import { useItem } from '../hooks/useItem';
+import { AmountButtonStyles, AmountStyles } from './ItemFormStyles';
 import { SingleItemStyles } from './SingleItem';
 
-const AmountStyles = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    .more {
-        color: var(--subtitle-color);
-    }
-`;
-
-const AmountButtonStyles = styled.button`
-    border: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    font-size: calc(var(--global-font-size) * 2);
-`;
-
 const ItemEdit = ({
-    quantity,
-    title,
-    onChange,
-    onDelete,
-    onSave,
+    initialItem,
+    listId,
+    setEditMode,
 }: {
-    quantity: number;
-    title: string;
-    onChange: (
-        newQuantity: number,
-        newTitle: string,
-        triggerSave: boolean,
-    ) => void;
-    onDelete?: () => Promise<void>;
-    onSave?: () => Promise<void>;
+    initialItem: Item;
+    listId: string;
+    setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }): JSX.Element => {
-    // trigger parent handler - updates props and triggers save on "Enter"
-    const change = (
-        newQuantity: number,
-        newTitle: string,
-        triggerSave: boolean,
-    ) => {
-        onChange(newQuantity, newTitle, triggerSave);
+    const {
+        item,
+        updateItem,
+        deleteItem,
+        updateQuantity,
+        handleChange,
+        handleKeyEvent,
+    } = useItem(initialItem, listId);
+
+    const handleUpdate = async () => {
+        await updateItem();
+        setEditMode(false);
     };
 
-    const handleDelete = () => {
-        if (typeof onDelete === 'function') {
-            onDelete();
-        }
-    };
-
-    const handleSave = () => {
-        if (typeof onSave === 'function') {
-            onSave();
-        }
-    };
-
-    const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-        if (e.currentTarget.value.endsWith('+')) {
-            change(quantity + 1, title, false);
-        } else if (e.currentTarget.value.endsWith('-')) {
-            change(Math.max(1, quantity - 1), title, false);
-        } else {
-            change(quantity, e.currentTarget.value, false);
-        }
-        e.preventDefault();
-    };
-
-    // keyboard handler for speedy mobile keyboard entries
-    const handleKeyEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === '+') {
-            // + ups the amount, but will not be printed
-            change(quantity + 1, title, false);
-            e.preventDefault();
-        } else if (e.key === '-') {
-            // - downs the amount, but not below 1, and will not be printed
-            change(Math.max(1, quantity - 1), title, false);
-            e.preventDefault();
-        } else if (e.key === 'Enter' && e.currentTarget.checkValidity()) {
-            // on enter, if the input field is valid, save (checks minLength / maxLength)
-            change(quantity, title, true);
-            e.preventDefault();
-        }
+    const handleDelete = async () => {
+        await deleteItem();
+        setEditMode(false);
     };
 
     return (
         <SingleItemStyles>
-            {typeof onDelete === 'function' && (
-                <button
-                    type="button"
-                    className="btn btn-small btn-error btn-ghost"
-                    onClick={() => handleDelete()}
-                >
-                    <Trash2 size={16} />
-                </button>
-            )}
+            <button
+                type="button"
+                className="btn btn-small btn-error btn-ghost"
+                onClick={handleDelete}
+            >
+                <Trash2 size={16} />
+            </button>
 
             <AmountStyles>
                 <AmountButtonStyles
                     type="button"
                     className="btn btn-small btn-primary btn-ghost"
-                    onClick={() => change(quantity + 1, title, false)}
+                    onClick={() => {
+                        updateQuantity(1);
+                    }}
                 >
                     +
                 </AmountButtonStyles>
 
-                <span className={quantity > 1 ? 'more' : ''}>{quantity}x</span>
+                <span className={item.quantity ?? 1 > 1 ? 'more' : ''}>
+                    {item.quantity}x
+                </span>
 
                 <AmountButtonStyles
                     type="button"
                     className="btn btn-small btn-primary btn-ghost"
-                    onClick={() => change(quantity - 1, title, false)}
+                    onClick={() => {
+                        updateQuantity(-1);
+                    }}
                 >
                     -
                 </AmountButtonStyles>
@@ -125,21 +76,19 @@ const ItemEdit = ({
                     required
                     placeholder="I need..."
                     autoComplete="off"
-                    value={title}
+                    value={item.title ?? ''}
                     onChange={handleChange}
                     onKeyPress={handleKeyEvent}
                 />
             </AmountStyles>
 
-            {typeof onSave === 'function' && (
-                <button
-                    type="button"
-                    className="btn btn-small btn-primary btn-ghost"
-                    onClick={() => handleSave()}
-                >
-                    <Save />
-                </button>
-            )}
+            <button
+                type="button"
+                className="btn btn-small btn-primary btn-ghost"
+                onClick={handleUpdate}
+            >
+                <Save />
+            </button>
         </SingleItemStyles>
     );
 };

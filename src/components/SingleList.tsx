@@ -2,21 +2,18 @@ import { gql } from '@apollo/client';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Item, useListByIdQuery } from '../../types/graphql-generated';
+import { Item, useItemsByListIdQuery } from '../../types/graphql-generated';
 import { getItemCount } from '../lib/listUtils';
 import ErrorMessage from './ErrorMessage';
 import SingleItem from './SingleItem';
 
-export const QUERY_LIST_BY_ID = gql`
-    query listById($id: ID!) {
-        List(where: { id: $id }) {
+export const ITEMS_BY_LIST_ID = gql`
+    query itemsByListId($id: ID!) {
+        allItems(where: { list: { id: $id } }, sortBy: done_DESC) {
+            id
             title
-            subtitle
-            items {
-                id
-                title
-                quantity
-            }
+            quantity
+            done
         }
     }
 `;
@@ -34,11 +31,11 @@ const ListStyles = styled.section`
 
 const SingleList = (): JSX.Element => {
     const { id } = useParams<{ id: string }>();
-    const { data, loading, error } = useListByIdQuery({
+    const { data, loading, error } = useItemsByListIdQuery({
         variables: { id },
     });
 
-    const list = data && data.List;
+    const items = data && (data.allItems as Item[]);
 
     if (loading) {
         return <p>Loading...</p>;
@@ -48,22 +45,20 @@ const SingleList = (): JSX.Element => {
         return <ErrorMessage error={error} />;
     }
 
-    const itemsNeeded = getItemCount(list?.items ?? []);
+    const itemsNeeded = getItemCount(items ?? []);
 
     return (
         <ListStyles>
-            {list?.items?.length === 0 && (
-                <h3>Ready to go! What do you need?</h3>
-            )}
+            {items?.length === 0 && <h3>Ready to go! What do you need?</h3>}
 
             {itemsNeeded > 0 && (
                 <h3>
-                    I need {itemsNeeded} thing{itemsNeeded > 1 ? 's' : ''}:
+                    I need {itemsNeeded} more thing{itemsNeeded > 1 ? 's' : ''}:
                 </h3>
             )}
 
             <div className="items">
-                {list?.items?.map((item: Item) => (
+                {items?.map((item: Item) => (
                     <SingleItem key={item.id} item={item} />
                 )) ?? <ErrorMessage error={'No items'}></ErrorMessage>}
             </div>

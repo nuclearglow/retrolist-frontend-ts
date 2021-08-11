@@ -10,7 +10,21 @@ import useForm from '../hooks/useForm';
 import { CURRENT_USER_QUERY } from '../hooks/useUser';
 import ErrorMessage from './ErrorMessage';
 import FormStyles from './FormStyles';
-import { QUERY_LIST_BY_ID } from './SingleList';
+import { ITEMS_BY_LIST_ID } from './SingleList';
+
+export const QUERY_LIST_BY_ID = gql`
+    query listById($id: ID!) {
+        List(where: { id: $id }) {
+            title
+            subtitle
+            items {
+                id
+                title
+                quantity
+            }
+        }
+    }
+`;
 
 export const EDIT_LIST_MUTATION = gql`
     mutation editList($id: ID!, $title: String!, $subtitle: String!) {
@@ -48,7 +62,7 @@ const EditList = (): JSX.Element => {
         // refetch the currently logged in user and the current list
         refetchQueries: [
             { query: CURRENT_USER_QUERY },
-            { query: QUERY_LIST_BY_ID, variables: { id } },
+            { query: ITEMS_BY_LIST_ID, variables: { id } },
         ],
         awaitRefetchQueries: true,
     });

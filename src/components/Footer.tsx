@@ -1,11 +1,11 @@
 import React from 'react';
 import { User } from 'react-feather';
 import { useRouteMatch } from 'react-router';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUser } from '../hooks/useUser';
 import BackButton from './BackButton';
-import CreateItems from './CreateItems';
+import ItemCreate from './ItemCreate';
 
 const FooterStyles = styled.footer`
     grid-area: footer;
@@ -34,7 +34,6 @@ const FooterStyles = styled.footer`
 
 const Footer = (): JSX.Element => {
     const match = useRouteMatch<{ id: string }>('/list/:id');
-    const history = useHistory();
     const user = useUser();
 
     // Show back button for each list view, create items only on list detail view
@@ -57,7 +56,7 @@ const Footer = (): JSX.Element => {
             </div>
             <div className="right">
                 {match?.params?.id && match.params.id !== 'new' && (
-                    <CreateItems listId={match.params.id} />
+                    <ItemCreate listId={match.params.id} />
                 )}
             </div>
         </FooterStyles>
