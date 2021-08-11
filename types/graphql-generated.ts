@@ -33,12 +33,14 @@ export type Item = {
   id: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
   quantity?: Maybe<Scalars['Int']>;
+  done?: Maybe<Scalars['Boolean']>;
   list?: Maybe<List>;
 };
 
 export type ItemCreateInput = {
   title?: Maybe<Scalars['String']>;
   quantity?: Maybe<Scalars['Int']>;
+  done?: Maybe<Scalars['Boolean']>;
   list?: Maybe<ListRelateToOneInput>;
 };
 
@@ -52,6 +54,7 @@ export type ItemRelateToManyInput = {
 export type ItemUpdateInput = {
   title?: Maybe<Scalars['String']>;
   quantity?: Maybe<Scalars['Int']>;
+  done?: Maybe<Scalars['Boolean']>;
   list?: Maybe<ListRelateToOneInput>;
 };
 
@@ -88,6 +91,8 @@ export type ItemWhereInput = {
   quantity_gte?: Maybe<Scalars['Int']>;
   quantity_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
   quantity_not_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  done?: Maybe<Scalars['Boolean']>;
+  done_not?: Maybe<Scalars['Boolean']>;
   list?: Maybe<ListWhereInput>;
   list_is_null?: Maybe<Scalars['Boolean']>;
 };
@@ -668,6 +673,8 @@ export enum SortItemsBy {
   TitleDesc = 'title_DESC',
   QuantityAsc = 'quantity_ASC',
   QuantityDesc = 'quantity_DESC',
+  DoneAsc = 'done_ASC',
+  DoneDesc = 'done_DESC',
   ListAsc = 'list_ASC',
   ListDesc = 'list_DESC'
 }
@@ -1088,21 +1095,6 @@ export type _KsListsMetaInput = {
   auxiliary?: Maybe<Scalars['Boolean']>;
 };
 
-export type CreateItemMutationVariables = Exact<{
-  title: Scalars['String'];
-  quantity: Scalars['Int'];
-  list: ListRelateToOneInput;
-}>;
-
-
-export type CreateItemMutation = (
-  { __typename?: 'Mutation' }
-  & { createItem?: Maybe<(
-    { __typename?: 'Item' }
-    & Pick<Item, 'id'>
-  )> }
-);
-
 export type CreateListMutationVariables = Exact<{
   title: Scalars['String'];
   subtitle: Scalars['String'];
@@ -1115,6 +1107,23 @@ export type CreateListMutation = (
   & { createList?: Maybe<(
     { __typename?: 'List' }
     & Pick<List, 'id'>
+  )> }
+);
+
+export type ListByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ListByIdQuery = (
+  { __typename?: 'Query' }
+  & { List?: Maybe<(
+    { __typename?: 'List' }
+    & Pick<List, 'title' | 'subtitle'>
+    & { items: Array<(
+      { __typename?: 'Item' }
+      & Pick<Item, 'id' | 'title' | 'quantity'>
+    )> }
   )> }
 );
 
@@ -1227,14 +1236,38 @@ export type SignoutMutation = (
   & Pick<Mutation, 'endSession'>
 );
 
-export type SaveItemMutationVariables = Exact<{
+export type ItemsByListIdQueryVariables = Exact<{
   id: Scalars['ID'];
-  title: Scalars['String'];
-  quantity: Scalars['Int'];
 }>;
 
 
-export type SaveItemMutation = (
+export type ItemsByListIdQuery = (
+  { __typename?: 'Query' }
+  & { allItems?: Maybe<Array<Maybe<(
+    { __typename?: 'Item' }
+    & Pick<Item, 'id' | 'title' | 'quantity' | 'done'>
+  )>>> }
+);
+
+export type VerifyUserMutationVariables = Exact<{
+  verificationToken: Scalars['String'];
+}>;
+
+
+export type VerifyUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'verifyUser'>
+);
+
+export type UpdateItemMutationVariables = Exact<{
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  quantity: Scalars['Int'];
+  done: Scalars['Boolean'];
+}>;
+
+
+export type UpdateItemMutation = (
   { __typename?: 'Mutation' }
   & { updateItem?: Maybe<(
     { __typename?: 'Item' }
@@ -1259,31 +1292,19 @@ export type DeleteItemMutation = (
   )> }
 );
 
-export type ListByIdQueryVariables = Exact<{
-  id: Scalars['ID'];
+export type CreateItemMutationVariables = Exact<{
+  title: Scalars['String'];
+  quantity: Scalars['Int'];
+  list: ListRelateToOneInput;
 }>;
 
 
-export type ListByIdQuery = (
-  { __typename?: 'Query' }
-  & { List?: Maybe<(
-    { __typename?: 'List' }
-    & Pick<List, 'title' | 'subtitle'>
-    & { items: Array<(
-      { __typename?: 'Item' }
-      & Pick<Item, 'id' | 'title' | 'quantity'>
-    )> }
-  )> }
-);
-
-export type VerifyUserMutationVariables = Exact<{
-  verificationToken: Scalars['String'];
-}>;
-
-
-export type VerifyUserMutation = (
+export type CreateItemMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'verifyUser'>
+  & { createItem?: Maybe<(
+    { __typename?: 'Item' }
+    & Pick<Item, 'id'>
+  )> }
 );
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1306,41 +1327,6 @@ export type CurrentUserQuery = (
 );
 
 
-export const CreateItemDocument = gql`
-    mutation createItem($title: String!, $quantity: Int!, $list: ListRelateToOneInput!) {
-  createItem(data: {title: $title, quantity: $quantity, list: $list}) {
-    id
-  }
-}
-    `;
-export type CreateItemMutationFn = Apollo.MutationFunction<CreateItemMutation, CreateItemMutationVariables>;
-
-/**
- * __useCreateItemMutation__
- *
- * To run a mutation, you first call `useCreateItemMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateItemMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createItemMutation, { data, loading, error }] = useCreateItemMutation({
- *   variables: {
- *      title: // value for 'title'
- *      quantity: // value for 'quantity'
- *      list: // value for 'list'
- *   },
- * });
- */
-export function useCreateItemMutation(baseOptions?: Apollo.MutationHookOptions<CreateItemMutation, CreateItemMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument, options);
-      }
-export type CreateItemMutationHookResult = ReturnType<typeof useCreateItemMutation>;
-export type CreateItemMutationResult = Apollo.MutationResult<CreateItemMutation>;
-export type CreateItemMutationOptions = Apollo.BaseMutationOptions<CreateItemMutation, CreateItemMutationVariables>;
 export const CreateListDocument = gql`
     mutation createList($title: String!, $subtitle: String!, $user: UserRelateToOneInput!) {
   createList(data: {title: $title, subtitle: $subtitle, user: $user}) {
@@ -1376,6 +1362,47 @@ export function useCreateListMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateListMutationHookResult = ReturnType<typeof useCreateListMutation>;
 export type CreateListMutationResult = Apollo.MutationResult<CreateListMutation>;
 export type CreateListMutationOptions = Apollo.BaseMutationOptions<CreateListMutation, CreateListMutationVariables>;
+export const ListByIdDocument = gql`
+    query listById($id: ID!) {
+  List(where: {id: $id}) {
+    title
+    subtitle
+    items {
+      id
+      title
+      quantity
+    }
+  }
+}
+    `;
+
+/**
+ * __useListByIdQuery__
+ *
+ * To run a query within a React component, call `useListByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useListByIdQuery(baseOptions: Apollo.QueryHookOptions<ListByIdQuery, ListByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListByIdQuery, ListByIdQueryVariables>(ListByIdDocument, options);
+      }
+export function useListByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListByIdQuery, ListByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListByIdQuery, ListByIdQueryVariables>(ListByIdDocument, options);
+        }
+export type ListByIdQueryHookResult = ReturnType<typeof useListByIdQuery>;
+export type ListByIdLazyQueryHookResult = ReturnType<typeof useListByIdLazyQuery>;
+export type ListByIdQueryResult = Apollo.QueryResult<ListByIdQuery, ListByIdQueryVariables>;
 export const EditListDocument = gql`
     mutation editList($id: ID!, $title: String!, $subtitle: String!) {
   updateList(id: $id, data: {title: $title, subtitle: $subtitle}) {
@@ -1656,41 +1683,111 @@ export function useSignoutMutation(baseOptions?: Apollo.MutationHookOptions<Sign
 export type SignoutMutationHookResult = ReturnType<typeof useSignoutMutation>;
 export type SignoutMutationResult = Apollo.MutationResult<SignoutMutation>;
 export type SignoutMutationOptions = Apollo.BaseMutationOptions<SignoutMutation, SignoutMutationVariables>;
-export const SaveItemDocument = gql`
-    mutation saveItem($id: ID!, $title: String!, $quantity: Int!) {
-  updateItem(id: $id, data: {title: $title, quantity: $quantity}) {
+export const ItemsByListIdDocument = gql`
+    query itemsByListId($id: ID!) {
+  allItems(where: {list: {id: $id}}, sortBy: done_DESC) {
     id
+    title
+    quantity
+    done
   }
 }
     `;
-export type SaveItemMutationFn = Apollo.MutationFunction<SaveItemMutation, SaveItemMutationVariables>;
 
 /**
- * __useSaveItemMutation__
+ * __useItemsByListIdQuery__
  *
- * To run a mutation, you first call `useSaveItemMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSaveItemMutation` returns a tuple that includes:
+ * To run a query within a React component, call `useItemsByListIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useItemsByListIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useItemsByListIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useItemsByListIdQuery(baseOptions: Apollo.QueryHookOptions<ItemsByListIdQuery, ItemsByListIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ItemsByListIdQuery, ItemsByListIdQueryVariables>(ItemsByListIdDocument, options);
+      }
+export function useItemsByListIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ItemsByListIdQuery, ItemsByListIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ItemsByListIdQuery, ItemsByListIdQueryVariables>(ItemsByListIdDocument, options);
+        }
+export type ItemsByListIdQueryHookResult = ReturnType<typeof useItemsByListIdQuery>;
+export type ItemsByListIdLazyQueryHookResult = ReturnType<typeof useItemsByListIdLazyQuery>;
+export type ItemsByListIdQueryResult = Apollo.QueryResult<ItemsByListIdQuery, ItemsByListIdQueryVariables>;
+export const VerifyUserDocument = gql`
+    mutation verifyUser($verificationToken: String!) {
+  verifyUser(verificationToken: $verificationToken)
+}
+    `;
+export type VerifyUserMutationFn = Apollo.MutationFunction<VerifyUserMutation, VerifyUserMutationVariables>;
+
+/**
+ * __useVerifyUserMutation__
+ *
+ * To run a mutation, you first call `useVerifyUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyUserMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [saveItemMutation, { data, loading, error }] = useSaveItemMutation({
+ * const [verifyUserMutation, { data, loading, error }] = useVerifyUserMutation({
+ *   variables: {
+ *      verificationToken: // value for 'verificationToken'
+ *   },
+ * });
+ */
+export function useVerifyUserMutation(baseOptions?: Apollo.MutationHookOptions<VerifyUserMutation, VerifyUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyUserMutation, VerifyUserMutationVariables>(VerifyUserDocument, options);
+      }
+export type VerifyUserMutationHookResult = ReturnType<typeof useVerifyUserMutation>;
+export type VerifyUserMutationResult = Apollo.MutationResult<VerifyUserMutation>;
+export type VerifyUserMutationOptions = Apollo.BaseMutationOptions<VerifyUserMutation, VerifyUserMutationVariables>;
+export const UpdateItemDocument = gql`
+    mutation updateItem($id: ID!, $title: String!, $quantity: Int!, $done: Boolean!) {
+  updateItem(id: $id, data: {title: $title, quantity: $quantity, done: $done}) {
+    id
+  }
+}
+    `;
+export type UpdateItemMutationFn = Apollo.MutationFunction<UpdateItemMutation, UpdateItemMutationVariables>;
+
+/**
+ * __useUpdateItemMutation__
+ *
+ * To run a mutation, you first call `useUpdateItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateItemMutation, { data, loading, error }] = useUpdateItemMutation({
  *   variables: {
  *      id: // value for 'id'
  *      title: // value for 'title'
  *      quantity: // value for 'quantity'
+ *      done: // value for 'done'
  *   },
  * });
  */
-export function useSaveItemMutation(baseOptions?: Apollo.MutationHookOptions<SaveItemMutation, SaveItemMutationVariables>) {
+export function useUpdateItemMutation(baseOptions?: Apollo.MutationHookOptions<UpdateItemMutation, UpdateItemMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SaveItemMutation, SaveItemMutationVariables>(SaveItemDocument, options);
+        return Apollo.useMutation<UpdateItemMutation, UpdateItemMutationVariables>(UpdateItemDocument, options);
       }
-export type SaveItemMutationHookResult = ReturnType<typeof useSaveItemMutation>;
-export type SaveItemMutationResult = Apollo.MutationResult<SaveItemMutation>;
-export type SaveItemMutationOptions = Apollo.BaseMutationOptions<SaveItemMutation, SaveItemMutationVariables>;
+export type UpdateItemMutationHookResult = ReturnType<typeof useUpdateItemMutation>;
+export type UpdateItemMutationResult = Apollo.MutationResult<UpdateItemMutation>;
+export type UpdateItemMutationOptions = Apollo.BaseMutationOptions<UpdateItemMutation, UpdateItemMutationVariables>;
 export const DeleteItemDocument = gql`
     mutation deleteItem($id: ID!) {
   deleteItem(id: $id) {
@@ -1727,78 +1824,41 @@ export function useDeleteItemMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteItemMutationHookResult = ReturnType<typeof useDeleteItemMutation>;
 export type DeleteItemMutationResult = Apollo.MutationResult<DeleteItemMutation>;
 export type DeleteItemMutationOptions = Apollo.BaseMutationOptions<DeleteItemMutation, DeleteItemMutationVariables>;
-export const ListByIdDocument = gql`
-    query listById($id: ID!) {
-  List(where: {id: $id}) {
-    title
-    subtitle
-    items {
-      id
-      title
-      quantity
-    }
+export const CreateItemDocument = gql`
+    mutation createItem($title: String!, $quantity: Int!, $list: ListRelateToOneInput!) {
+  createItem(data: {title: $title, quantity: $quantity, list: $list}) {
+    id
   }
 }
     `;
+export type CreateItemMutationFn = Apollo.MutationFunction<CreateItemMutation, CreateItemMutationVariables>;
 
 /**
- * __useListByIdQuery__
+ * __useCreateItemMutation__
  *
- * To run a query within a React component, call `useListByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useListByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useListByIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useListByIdQuery(baseOptions: Apollo.QueryHookOptions<ListByIdQuery, ListByIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ListByIdQuery, ListByIdQueryVariables>(ListByIdDocument, options);
-      }
-export function useListByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListByIdQuery, ListByIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ListByIdQuery, ListByIdQueryVariables>(ListByIdDocument, options);
-        }
-export type ListByIdQueryHookResult = ReturnType<typeof useListByIdQuery>;
-export type ListByIdLazyQueryHookResult = ReturnType<typeof useListByIdLazyQuery>;
-export type ListByIdQueryResult = Apollo.QueryResult<ListByIdQuery, ListByIdQueryVariables>;
-export const VerifyUserDocument = gql`
-    mutation verifyUser($verificationToken: String!) {
-  verifyUser(verificationToken: $verificationToken)
-}
-    `;
-export type VerifyUserMutationFn = Apollo.MutationFunction<VerifyUserMutation, VerifyUserMutationVariables>;
-
-/**
- * __useVerifyUserMutation__
- *
- * To run a mutation, you first call `useVerifyUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useVerifyUserMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateItemMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [verifyUserMutation, { data, loading, error }] = useVerifyUserMutation({
+ * const [createItemMutation, { data, loading, error }] = useCreateItemMutation({
  *   variables: {
- *      verificationToken: // value for 'verificationToken'
+ *      title: // value for 'title'
+ *      quantity: // value for 'quantity'
+ *      list: // value for 'list'
  *   },
  * });
  */
-export function useVerifyUserMutation(baseOptions?: Apollo.MutationHookOptions<VerifyUserMutation, VerifyUserMutationVariables>) {
+export function useCreateItemMutation(baseOptions?: Apollo.MutationHookOptions<CreateItemMutation, CreateItemMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<VerifyUserMutation, VerifyUserMutationVariables>(VerifyUserDocument, options);
+        return Apollo.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument, options);
       }
-export type VerifyUserMutationHookResult = ReturnType<typeof useVerifyUserMutation>;
-export type VerifyUserMutationResult = Apollo.MutationResult<VerifyUserMutation>;
-export type VerifyUserMutationOptions = Apollo.BaseMutationOptions<VerifyUserMutation, VerifyUserMutationVariables>;
+export type CreateItemMutationHookResult = ReturnType<typeof useCreateItemMutation>;
+export type CreateItemMutationResult = Apollo.MutationResult<CreateItemMutation>;
+export type CreateItemMutationOptions = Apollo.BaseMutationOptions<CreateItemMutation, CreateItemMutationVariables>;
 export const CurrentUserDocument = gql`
     query currentUser {
   authenticatedItem {
@@ -1867,4 +1927,4 @@ export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, Curren
 };
       export default result;
     
-// Generated on 10.08.21 15:41:41+02:00
+// Generated on 11.08.21 09:02:54+02:00
