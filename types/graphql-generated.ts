@@ -1142,6 +1142,20 @@ export type EditListMutation = (
   )> }
 );
 
+export type UpdateItemDoneMutationVariables = Exact<{
+  id: Scalars['ID'];
+  done: Scalars['Boolean'];
+}>;
+
+
+export type UpdateItemDoneMutation = (
+  { __typename?: 'Mutation' }
+  & { updateItem?: Maybe<(
+    { __typename?: 'Item' }
+    & Pick<Item, 'id'>
+  )> }
+);
+
 export type DeleteListByIdMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1246,6 +1260,10 @@ export type ItemsByListIdQuery = (
   & { allItems?: Maybe<Array<Maybe<(
     { __typename?: 'Item' }
     & Pick<Item, 'id' | 'title' | 'quantity' | 'done'>
+    & { list?: Maybe<(
+      { __typename?: 'List' }
+      & Pick<List, 'id'>
+    )> }
   )>>> }
 );
 
@@ -1438,6 +1456,40 @@ export function useEditListMutation(baseOptions?: Apollo.MutationHookOptions<Edi
 export type EditListMutationHookResult = ReturnType<typeof useEditListMutation>;
 export type EditListMutationResult = Apollo.MutationResult<EditListMutation>;
 export type EditListMutationOptions = Apollo.BaseMutationOptions<EditListMutation, EditListMutationVariables>;
+export const UpdateItemDoneDocument = gql`
+    mutation updateItemDone($id: ID!, $done: Boolean!) {
+  updateItem(id: $id, data: {done: $done}) {
+    id
+  }
+}
+    `;
+export type UpdateItemDoneMutationFn = Apollo.MutationFunction<UpdateItemDoneMutation, UpdateItemDoneMutationVariables>;
+
+/**
+ * __useUpdateItemDoneMutation__
+ *
+ * To run a mutation, you first call `useUpdateItemDoneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateItemDoneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateItemDoneMutation, { data, loading, error }] = useUpdateItemDoneMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      done: // value for 'done'
+ *   },
+ * });
+ */
+export function useUpdateItemDoneMutation(baseOptions?: Apollo.MutationHookOptions<UpdateItemDoneMutation, UpdateItemDoneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateItemDoneMutation, UpdateItemDoneMutationVariables>(UpdateItemDoneDocument, options);
+      }
+export type UpdateItemDoneMutationHookResult = ReturnType<typeof useUpdateItemDoneMutation>;
+export type UpdateItemDoneMutationResult = Apollo.MutationResult<UpdateItemDoneMutation>;
+export type UpdateItemDoneMutationOptions = Apollo.BaseMutationOptions<UpdateItemDoneMutation, UpdateItemDoneMutationVariables>;
 export const DeleteListByIdDocument = gql`
     mutation deleteListById($id: ID!) {
   deleteList(id: $id) {
@@ -1685,11 +1737,14 @@ export type SignoutMutationResult = Apollo.MutationResult<SignoutMutation>;
 export type SignoutMutationOptions = Apollo.BaseMutationOptions<SignoutMutation, SignoutMutationVariables>;
 export const ItemsByListIdDocument = gql`
     query itemsByListId($id: ID!) {
-  allItems(where: {list: {id: $id}}, sortBy: done_DESC) {
+  allItems(where: {list: {id: $id}}, sortBy: done_ASC) {
     id
     title
     quantity
     done
+    list {
+      id
+    }
   }
 }
     `;
@@ -1927,4 +1982,4 @@ export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, Curren
 };
       export default result;
     
-// Generated on 11.08.21 09:02:54+02:00
+// Generated on 11.08.21 10:18:28+02:00
