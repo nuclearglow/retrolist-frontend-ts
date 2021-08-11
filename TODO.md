@@ -1,6 +1,5 @@
 Now:
 -   Workbox PWA: set up config and build job
--   https://frontendchecklist.io/
 -   print view of a list -> download
 -   refactor item edit view: handle edit / creation directly, jkust take in an item, decide by id
 
