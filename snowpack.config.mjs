@@ -8,7 +8,7 @@ export default {
         types: { url: '/dist' },
     },
     env: {
-        GRAPHQL_ENDPOINT_DEV: 'http://10.10.10.100:3000/api/graphql',
+        GRAPHQL_ENDPOINT_DEV: 'http://10.10.10.100:7776/api/graphql',
         GRAPHQL_ENDPOINT_PROD: 'https://retroapi.svenvowe.de/api/graphql',
     },
     plugins: [

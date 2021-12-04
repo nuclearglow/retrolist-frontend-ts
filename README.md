@@ -1,25 +1,25 @@
-# New Project
+# retrolist frontend
 
-> ✨ Bootstrapped with Create Snowpack App (CSA).
+A simple todo app using preact and apollo-client
 
-## Available Scripts
+# dev
 
-### npm start
+-   `npm i`
+-   `npm start`
 
 Runs the app in the development mode.
-Open http://localhost:8080 to view it in the browser.
+Open http://localhost:7777 to view it in the browser.
 
-The page will reload if you make edits.
-You will also see any lint errors in the console.
+# deploy
 
-### npm run build
+.envrc
 
-Builds a static copy of your site to the `build/` folder.
-Your app is ready to be deployed!
+```
+export DEPLOYMENT_HOST="109.239.58.141"
+export DEPLOYMENT_USERNAME="deployer"
+export DEPLOYMENT_SSH_PRIVATE_KEY_PATH="/home/nuky/.ssh/id_deployer"
+export DEPLOYMENT_SSH_PRIVATE_KEY_PASS_PATH="/home/nuky/.ssh/id_deployer.pwd"
+export DEPLOYMENT_PATH="/home/deployer/deployments/retrolist/frontend"
+```
 
-**For the best production performance:** Add a build bundler plugin like "@snowpack/plugin-webpack" to your `snowpack.config.mjs` config file.
-
-### npm test
-
-Launches the application test runner.
-Run with the `--watch` flag (`npm test -- --watch`) to run in interactive watch mode.
+-   `npm run deploy`

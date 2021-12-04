@@ -8,8 +8,9 @@ node_modules
 # Optional npm cache directory
 .npm
 
-# dotenv environment variables file
+# direnv / dotenv environment variables file
 .env
+.envrc
 
 # Optional eslint cache
 .eslintcache
