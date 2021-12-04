@@ -25,6 +25,8 @@
   "dependencies": {
     "@apollo/client": "^3.3.21",
     "graphql": "^15.5.1",
+    "html2canvas": "^1.2.2",
+    "jspdf": "^2.3.1",
     "react": "^17.0.2",
     "react-div-100vh": "^0.6.0",
     "react-dom": "^17.0.2",

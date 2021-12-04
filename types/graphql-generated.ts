@@ -1262,7 +1262,7 @@ export type ItemsByListIdQuery = (
     & Pick<Item, 'id' | 'title' | 'quantity' | 'done'>
     & { list?: Maybe<(
       { __typename?: 'List' }
-      & Pick<List, 'id'>
+      & Pick<List, 'id' | 'title' | 'subtitle'>
     )> }
   )>>> }
 );
@@ -1744,6 +1744,8 @@ export const ItemsByListIdDocument = gql`
     done
     list {
       id
+      title
+      subtitle
     }
   }
 }
@@ -1982,4 +1984,4 @@ export type CurrentUserQueryResult = Apollo.QueryResult<CurrentUserQuery, Curren
 };
       export default result;
     
-// Generated on 11.08.21 10:18:28+02:00
+// Generated on 11.08.21 16:59:37+02:00

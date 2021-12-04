@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Download } from 'react-feather';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Item, useItemsByListIdQuery } from '../../types/graphql-generated';
 import { getItemCountTodo } from '../lib/listUtils';
@@ -17,6 +18,8 @@ export const ITEMS_BY_LIST_ID = gql`
             done
             list {
                 id
+                title
+                subtitle
             }
         }
     }
@@ -38,6 +41,12 @@ const ListStyles = styled.section`
         align-items: baseline;
         align-content: flex-start;
     }
+`;
+
+export const ListTitleStyles = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 `;
 
 const SingleList = (): JSX.Element => {
@@ -63,9 +72,20 @@ const SingleList = (): JSX.Element => {
             {items?.length === 0 && <h3>Ready to go! What do you need?</h3>}
 
             {itemsNeeded > 0 && (
-                <h3>
-                    I need {itemsNeeded} more thing{itemsNeeded > 1 ? 's' : ''}:
-                </h3>
+                <ListTitleStyles>
+                    <h3>
+                        I need {itemsNeeded} more thing
+                        {itemsNeeded > 1 ? 's' : ''}:
+                    </h3>
+                    <Link to={`/list/print/${id}`}>
+                        <button
+                            type="button"
+                            className="btn btn-small btn-ghost"
+                        >
+                            <Download />
+                        </button>
+                    </Link>
+                </ListTitleStyles>
             )}
 
             <div className="items">

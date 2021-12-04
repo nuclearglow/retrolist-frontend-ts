@@ -7,6 +7,7 @@ import EditList from './components/EditList';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Imprint from './components/Imprint';
+import ListPDF from './components/ListPDF';
 import Lists from './components/Lists';
 import Login from './components/Login';
 import Profile from './components/Profile';
@@ -145,6 +146,9 @@ const App = (): JSX.Element => {
                             </Route>
                             <Route path="/list/edit/:id">
                                 <EditList />
+                            </Route>
+                            <Route path="/list/print/:id">
+                                <ListPDF />
                             </Route>
                             <Route path="/list/:id">
                                 <SingleList />
