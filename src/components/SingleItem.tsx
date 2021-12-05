@@ -7,17 +7,22 @@ import ItemToggleDone from './ItemToggleDone';
 
 export const SingleItemStyles = styled.div`
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 
-    margin: 2px;
+    margin: 3px 0;
+    padding: 3px 6px;
 
     &.done {
         border-color: var(--success-color);
     }
 
-    > div {
-        padding: 0 0 0 5px;
+    .description {
+        width: 80%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 5px;
     }
 
     .quantity {
@@ -38,11 +43,13 @@ const SingleItem = ({ item }: { item: Item }): JSX.Element => {
                 item.done ? 'done' : ''
             }`}
         >
-            <ItemToggleDone item={item} />
-            <div className="quantity">
-                <span className="quantity">{`${item.quantity}x `}</span>
+            <div className="description">
+                <ItemToggleDone item={item} />
+                <div className="quantity">
+                    <span className="quantity">{`${item.quantity}x `}</span>
+                </div>
+                <div>{item.title}</div>
             </div>
-            <div>{item.title}</div>
             <div>
                 {!item.done && (
                     <Edit2 onClick={() => setEditMode(true)} size="16" />

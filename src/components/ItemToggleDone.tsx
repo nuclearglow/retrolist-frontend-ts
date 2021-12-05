@@ -35,9 +35,9 @@ const ItemToggleDone = ({ item }: { item: Item }): JSX.Element => {
 
     const getIcon = (): JSX.Element => {
         if (item.done) {
-            return <CheckSquare size={16} />;
+            return <CheckSquare size={24} />;
         }
-        return <Square size={16} />;
+        return <Square size={24} />;
     };
 
     return (

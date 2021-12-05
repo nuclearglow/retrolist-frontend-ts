@@ -31,12 +31,8 @@ const ListStyles = styled.section`
     align-items: stretch;
 
     .items {
-        flex: 1;
         overflow-y: auto;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
-        align-content: flex-start;
+        height: 100%;
     }
 `;
 
