@@ -1,31 +1,31 @@
 {
-  "name": "retrolist.svenvowe.de",
-  "short_name": "retrolist.svenvowe.de",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#1e1e1e",
-  "theme_color": "#f975f7",
-  "icons": [
-    {
-        "src": "/favicon-16x16.png",
-        "type": "image/png",
-        "sizes": "16x16"
-    },
-    {
-        "src": "/favicon-32x32.png",
-        "type": "image/png",
-        "sizes": "32x32"
-    },
-    {
-        "src": "/android-chrome-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png"
-    },
-    {
-        "src": "/android-chrome-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png"
-    }
-],
+    "name": "retrolist.svenvowe.de",
+    "short_name": "retrolist.svenvowe.de",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#1e1e1e",
+    "theme_color": "#f975f7",
+    "icons": [
+        {
+            "src": "/favicon-16x16.png",
+            "type": "image/png",
+            "sizes": "16x16"
+        },
+        {
+            "src": "/favicon-32x32.png",
+            "type": "image/png",
+            "sizes": "32x32"
+        },
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }
